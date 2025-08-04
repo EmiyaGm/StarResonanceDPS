@@ -17,7 +17,7 @@
 
 - Windows 10/11 (推荐)
 - 管理员权限 (用于网络包捕获)
-- WinPcap/Npcap (网络抓包驱动)
+- WinPcap/Npcap (网络抓包驱动) [安装地址](https://www.winpcap.org/install/bin/WinPcap_4_1_3.exe) (**一定要安装 WinPcap 或 Npcap 驱动，否则无法捕获数据包**)
 
 ## 安装与使用
 
@@ -150,6 +150,7 @@ npm run dev
 ## 致谢
 
 - 感谢 [Dimole](https://github.com/dmlgzs) 的原始服务器版本
+- 感谢 [cuteSATOU](https://github.com/cuteSATOU) 的原始打包版本
 
 ---
 

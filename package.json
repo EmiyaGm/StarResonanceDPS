@@ -6,6 +6,9 @@
   "author": "SATOU",
   "type": "commonjs",
   "main": "main.js",
+  "config": {
+    "forge": "./forge.config.js"
+  },
   "scripts": {
     "start": "electron-forge start",
     "dev": "NODE_ENV=development electron .",
@@ -14,7 +17,8 @@
     "dist": "electron-builder",
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "pack:win": "electron-builder -w"
   },
   "dependencies": {
     "cap": "^0.2.1",
@@ -33,6 +37,7 @@
     "@electron/fuses": "^2.0.0",
     "@electron/rebuild": "^4.0.1",
     "electron": "^37.2.5",
+    "electron-builder": "^26.0.12",
     "electron-rebuild": "^3.2.9"
   },
   "build": {
@@ -49,7 +54,10 @@
     ],
     "win": {
       "icon": "assets/icon.ico",
-      "target": "nsis",
+      "target": [
+        "nsis",
+        "zip"
+      ],
       "requestedExecutionLevel": "requireAdministrator"
     },
     "mac": {
