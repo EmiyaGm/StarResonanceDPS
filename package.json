@@ -1,24 +1,19 @@
 {
   "name": "stardps",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "星痕共鸣第三方DPS统计工具",
   "license": "ISC",
-  "author": "SATOU",
+  "author": "EmiyaGm",
   "type": "commonjs",
   "main": "main.js",
-  "config": {
-    "forge": "./forge.config.js"
-  },
   "scripts": {
-    "start": "electron-forge start",
-    "dev": "NODE_ENV=development electron .",
+    "start": "electron .",
+    "dev": "electron .",
     "build": "electron-builder",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "pack:win": "electron-builder -w"
+    "pack:win": "electron-builder --win"
   },
   "dependencies": {
     "cap": "^0.2.1",
@@ -27,21 +22,13 @@
     "winston": "^3.11.0"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^7.8.2",
-    "@electron-forge/maker-deb": "^7.8.2",
-    "@electron-forge/maker-rpm": "^7.8.2",
-    "@electron-forge/maker-squirrel": "^7.8.2",
-    "@electron-forge/maker-zip": "^7.8.2",
-    "@electron-forge/plugin-auto-unpack-natives": "^7.8.2",
-    "@electron-forge/plugin-fuses": "^7.8.2",
-    "@electron/fuses": "^2.0.0",
     "@electron/rebuild": "^4.0.1",
     "electron": "^37.2.5",
     "electron-builder": "^26.0.12",
     "electron-rebuild": "^3.2.9"
   },
   "build": {
-    "appId": "com.satou.stardps",
+    "appId": "com.emiyagm.stardps",
     "productName": "星痕共鸣DPS统计工具",
     "directories": {
       "output": "dist"

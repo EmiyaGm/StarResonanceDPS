@@ -357,6 +357,7 @@ function processPacket(buf) {
                                     
                                     const operator_uid = BigInt(hit[21] || hit[11]) >> 16n;
                                     if (!operator_uid) break;
+                                    if (typeof damage !== 'number') break;
                                     
                                     // 初始化数据结构
                                     if (!total_damage[operator_uid]) {

@@ -32,6 +32,8 @@
 2. **安装依赖**
    ```bash
    npm install
+
+   npm run build # 重新用当前node构建一下 cap 包
    ```
 
 3. **以管理员权限启动**
@@ -49,8 +51,8 @@ npm run build
 # 仅打包不构建安装程序
 npm run pack
 
-# 构建分发版本
-npm run dist
+# 构建 windows 安装程序
+npm run pack:win
 ```
 
 ## 使用说明
