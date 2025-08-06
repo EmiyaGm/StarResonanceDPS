@@ -536,7 +536,64 @@ window.debugAPI = {
     addTestData: () => {
         // 添加测试数据用于开发调试
         const testData = {
-            '12345678901234567890': {
+            '1': {
+                realtime_dps: 15420,
+                realtime_dps_max: 23450,
+                total_dps: 18500,
+                total_damage: {
+                    normal: 250000,
+                    critical: 180000,
+                    lucky: 45000,
+                    crit_lucky: 32000,
+                    hpLessen: 5000,
+                    total: 507000
+                },
+                total_count: {
+                    normal: 125,
+                    critical: 89,
+                    lucky: 23,
+                    total: 237
+                }
+            },
+            '2': {
+                realtime_dps: 15420,
+                realtime_dps_max: 23450,
+                total_dps: 18500,
+                total_damage: {
+                    normal: 250000,
+                    critical: 180000,
+                    lucky: 45000,
+                    crit_lucky: 32000,
+                    hpLessen: 5000,
+                    total: 507000
+                },
+                total_count: {
+                    normal: 125,
+                    critical: 89,
+                    lucky: 23,
+                    total: 237
+                }
+            },
+            '3': {
+                realtime_dps: 15420,
+                realtime_dps_max: 23450,
+                total_dps: 18500,
+                total_damage: {
+                    normal: 250000,
+                    critical: 180000,
+                    lucky: 45000,
+                    crit_lucky: 32000,
+                    hpLessen: 5000,
+                    total: 507000
+                },
+                total_count: {
+                    normal: 125,
+                    critical: 89,
+                    lucky: 23,
+                    total: 237
+                }
+            },
+            '4': {
                 realtime_dps: 15420,
                 realtime_dps_max: 23450,
                 total_dps: 18500,

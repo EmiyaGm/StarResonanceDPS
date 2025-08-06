@@ -1,6 +1,6 @@
 {
   "name": "stardps",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "星痕共鸣第三方DPS统计工具",
   "license": "ISC",
   "author": "EmiyaGm",
@@ -8,7 +8,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "electron .",
+    "dev": "cross-env NODE_ENV=development electron .",
     "build": "electron-builder",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@electron/rebuild": "^4.0.1",
+    "cross-env": "^10.0.0",
     "electron": "^37.2.5",
     "electron-builder": "^26.0.12",
     "electron-rebuild": "^3.2.9"

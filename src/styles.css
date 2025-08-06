@@ -574,7 +574,7 @@ body {
     flex-direction: column;
     gap: var(--space-xl);
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
 }
 
 /* Dashboard */
