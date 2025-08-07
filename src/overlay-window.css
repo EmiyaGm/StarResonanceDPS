@@ -176,6 +176,8 @@ body {
 /* Overlay Content */
 .overlay-content {
     padding: var(--space-md);
+    height: calc(100vh - 40px);
+    overflow-y: auto;
 }
 
 /* DPS Main Display */

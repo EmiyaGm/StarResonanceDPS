@@ -177,6 +177,63 @@
                                 <div class="chart-bar" style="width: 0%"></div>
                             </div>
                         </div>
+
+                        <div class="metric-card primary">
+                            <div class="metric-header">
+                                <div class="metric-icon">⚡</div>
+                                <div class="metric-info">
+                                    <h4>实时 HPS</h4>
+                                    <span class="metric-subtitle">当前每秒治疗量</span>
+                                </div>
+                            </div>
+                            <div class="metric-value" id="totalRealtimeHps">0</div>
+                            <div class="metric-chart">
+                                <div class="chart-bar chart-healing-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="metric-card danger">
+                            <div class="metric-header">
+                                <div class="metric-icon">🔥</div>
+                                <div class="metric-info">
+                                    <h4>峰值 HPS</h4>
+                                    <span class="metric-subtitle">历史最高</span>
+                                </div>
+                            </div>
+                            <div class="metric-value" id="totalMaxHps">0</div>
+                            <div class="metric-chart">
+                                <div class="chart-bar chart-healing-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="metric-card success">
+                            <div class="metric-header">
+                                <div class="metric-icon">📈</div>
+                                <div class="metric-info">
+                                    <h4>平均 HPS</h4>
+                                    <span class="metric-subtitle">总体平均</span>
+                                </div>
+                            </div>
+                            <div class="metric-value" id="totalAvgHps">0</div>
+                            <div class="metric-chart">
+                                <div class="chart-bar chart-healing-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="metric-card warning">
+                            <div class="metric-header">
+                                <div class="metric-icon">💥</div>
+                                <div class="metric-info">
+                                    <h4>总治疗</h4>
+                                    <span class="metric-subtitle">累计治疗</span>
+                                </div>
+                            </div>
+                            <div class="metric-value" id="totalHealing">0</div>
+                            <div class="metric-chart">
+                                <div class="chart-bar chart-healing-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
                     </div>
 
                     <!-- 详细数据表格 -->
@@ -196,29 +253,29 @@
                                 <thead>
                                     <tr>
                                         <th class="sortable" data-sort="uid">
-                                            <span>玩家 UID</span>
+                                            <span>玩家 UID(职业)</span>
                                             <span class="sort-icon">↕️</span>
                                         </th>
                                         <th class="sortable" data-sort="realtime">
-                                            <span>实时 DPS</span>
+                                            <span>实时 DPS/HPS</span>
                                             <span class="sort-icon">↕️</span>
                                         </th>
                                         <th class="sortable" data-sort="max">
-                                            <span>峰值 DPS</span>
+                                            <span>峰值 DPS/HPS</span>
                                             <span class="sort-icon">↕️</span>
                                         </th>
                                         <th class="sortable" data-sort="avg">
-                                            <span>平均 DPS</span>
+                                            <span>平均 DPS/HPS</span>
                                             <span class="sort-icon">↕️</span>
                                         </th>
                                         <th class="sortable" data-sort="total">
-                                            <span>总伤害</span>
+                                            <span>总伤害/总治疗</span>
                                             <span class="sort-icon">↕️</span>
                                         </th>
-                                        <th>普通</th>
-                                        <th>暴击</th>
-                                        <th>幸运</th>
-                                        <th>暴击幸运</th>
+                                        <th>普通(伤害/治疗)</th>
+                                        <th>暴击(伤害/治疗)</th>
+                                        <th>幸运(伤害/治疗)</th>
+                                        <th>暴击幸运(伤害/治疗)</th>
                                         <th>次数</th>
                                         <th class="sortable" data-sort="crit-rate">
                                             <span>暴击率</span>

@@ -4,6 +4,7 @@ const { ipcRenderer } = require('electron');
 let statusCard, statusIndicator, currentDevice, playerUid, noDataMessage, statsContainer;
 let deviceSelect, refreshDeviceBtn, startCaptureBtn, stopCaptureBtn, clearStatsBtn, showLogBtn, toggleOverlayBtn;
 let totalRealtimeDps, totalMaxDps, totalAvgDps, totalDamage, statsTable;
+let totalRealtimeHps, totalMaxHps, totalAvgHps, totalHealing;
 let minimizeBtn, maximizeBtn, closeBtn;
 
 // 全局状态
@@ -18,11 +19,11 @@ function initializeElements() {
     statusIndicator = document.getElementById('statusIndicator');
     currentDevice = document.getElementById('currentDevice');
     playerUid = document.getElementById('playerUid');
-    
+
     // 主要区域
     noDataMessage = document.getElementById('noDataMessage');
     statsContainer = document.getElementById('statsContainer');
-    
+
     // 控件
     deviceSelect = document.getElementById('deviceSelect');
     refreshDeviceBtn = document.getElementById('refreshDeviceBtn');
@@ -31,18 +32,24 @@ function initializeElements() {
     clearStatsBtn = document.getElementById('clearStatsBtn');
     showLogBtn = document.getElementById('showLogBtn');
     toggleOverlayBtn = document.getElementById('toggleOverlayBtn');
-    
+
     // 窗口控制按钮
     minimizeBtn = document.getElementById('minimizeBtn');
     maximizeBtn = document.getElementById('maximizeBtn');
     closeBtn = document.getElementById('closeBtn');
-    
+
     // 数据展示元素
     totalRealtimeDps = document.getElementById('totalRealtimeDps');
     totalMaxDps = document.getElementById('totalMaxDps');
     totalAvgDps = document.getElementById('totalAvgDps');
     totalDamage = document.getElementById('totalDamage');
     statsTable = document.getElementById('statsTable');
+
+    totalRealtimeHps = document.getElementById('totalRealtimeHps');
+    totalMaxHps = document.getElementById('totalMaxHps');
+    totalAvgHps = document.getElementById('totalAvgHps');
+    totalHealing = document.getElementById('totalHealing');
+
 }
 
 // 绑定事件监听器
@@ -168,7 +175,7 @@ function bindIpcListeners() {
 // 更新抓包状态
 function updateCaptureStatus(capturing, deviceName = null) {
     isCapturing = capturing;
-    
+
     if (capturing) {
         statusCard.className = 'status-card capturing';
         statusIndicator.querySelector('.status-text').textContent = '正在抓包';
@@ -176,7 +183,7 @@ function updateCaptureStatus(capturing, deviceName = null) {
         stopCaptureBtn.disabled = false;
         if (deviceSelect) deviceSelect.disabled = true;
         if (refreshDeviceBtn) refreshDeviceBtn.disabled = true;
-        
+
         if (deviceName) {
             currentDevice.textContent = deviceName;
         }
@@ -187,7 +194,7 @@ function updateCaptureStatus(capturing, deviceName = null) {
         stopCaptureBtn.disabled = true;
         if (deviceSelect) deviceSelect.disabled = false;
         if (refreshDeviceBtn) refreshDeviceBtn.disabled = false;
-        
+
         // 如果停止抓包，重置设备显示
         if (deviceName === null) {
             currentDevice.textContent = '未选择';
@@ -198,7 +205,7 @@ function updateCaptureStatus(capturing, deviceName = null) {
 // 格式化数字显示
 function formatNumber(num, decimals = 0) {
     if (typeof num !== 'number' || isNaN(num)) return '0';
-    
+
     if (num >= 1000000) {
         return (num / 1000000).toFixed(1) + 'M';
     } else if (num >= 1000) {
@@ -217,23 +224,28 @@ function formatPercentage(num) {
 // 更新统计数据显示
 function updateStatsDisplay() {
     const userIds = Object.keys(statsData);
-    
+
     if (userIds.length === 0) {
         noDataMessage.style.display = 'block';
         statsContainer.style.display = 'none';
         return;
     }
-    
+
     noDataMessage.style.display = 'none';
     statsContainer.style.display = 'block';
-    
+
     // 计算总体统计
     let totalRealtimeDpsValue = 0;
     let totalMaxDpsValue = 0;
     let totalAvgDpsValue = 0;
     let totalDamageValue = 0;
     let playerCount = 0;
-    
+
+    let totalRealtimeHpsValue = 0;
+    let totalMaxHpsValue = 0;
+    let totalAvgHpsValue = 0;
+    let totalHealingValue = 0;
+
     for (const uid of userIds) {
         const userData = statsData[uid];
         totalRealtimeDpsValue += userData.realtime_dps || 0;
@@ -241,21 +253,33 @@ function updateStatsDisplay() {
         totalAvgDpsValue += userData.total_dps || 0;
         totalDamageValue += userData.total_damage.total || 0;
         playerCount++;
+
+        totalRealtimeHpsValue += userData.realtime_hps || 0;
+        totalMaxHpsValue = Math.max(totalMaxHpsValue, userData.realtime_hps_max || 0);
+        totalAvgHpsValue += userData.total_hps || 0;
+        totalHealingValue += userData.total_healing.total || 0;
+
     }
-    
+
     if (playerCount > 0) {
         totalAvgDpsValue = totalAvgDpsValue / playerCount;
+        totalAvgHpsValue = totalAvgHpsValue / playerCount;
     }
-    
+
     // 更新概览卡片
     totalRealtimeDps.textContent = formatNumber(totalRealtimeDpsValue);
     totalMaxDps.textContent = formatNumber(totalMaxDpsValue);
     totalAvgDps.textContent = formatNumber(totalAvgDpsValue);
     totalDamage.textContent = formatNumber(totalDamageValue);
-    
+
+    totalRealtimeHps.textContent = formatNumber(totalRealtimeHpsValue);
+    totalMaxHps.textContent = formatNumber(totalMaxHpsValue);
+    totalAvgHps.textContent = formatNumber(totalAvgHpsValue);
+    totalHealing.textContent = formatNumber(totalHealingValue);
+
     // 更新表格
     updateStatsTable();
-    
+
     // 更新图表进度条
     updateMetricCharts();
 }
@@ -264,36 +288,37 @@ function updateStatsDisplay() {
 function updateStatsTable() {
     const tbody = statsTable.querySelector('tbody');
     tbody.innerHTML = '';
-    
+
     const userIds = Object.keys(statsData).sort();
-    
+
     for (const uid of userIds) {
         const userData = statsData[uid];
         const damage = userData.total_damage;
+        const healing = userData.total_healing;
         const count = userData.total_count;
-        
+
         // 计算暴击率
         const critRate = count.total > 0 ? count.critical / count.total : 0;
-        
+
         const row = document.createElement('tr');
         row.className = 'stats-update';
-        
+
         row.innerHTML = `
-            <td>${uid}</td>
-            <td class="number">${formatNumber(userData.realtime_dps)}</td>
-            <td class="number">${formatNumber(userData.realtime_dps_max)}</td>
-            <td class="number">${formatNumber(userData.total_dps)}</td>
-            <td class="number">${formatNumber(damage.total)}</td>
-            <td class="number">${formatNumber(damage.normal)}</td>
-            <td class="number">${formatNumber(damage.critical)}</td>
-            <td class="number">${formatNumber(damage.lucky)}</td>
-            <td class="number">${formatNumber(damage.crit_lucky)}</td>
+            <td>${uid}(${userData.profession})</td>
+            <td class="number">${formatNumber(userData.realtime_dps)}/${formatNumber(userData.realtime_hps)}</td>
+            <td class="number">${formatNumber(userData.realtime_dps_max)}/${formatNumber(userData.realtime_hps_max)}</td>
+            <td class="number">${formatNumber(userData.total_dps)}/${formatNumber(userData.total_hps)}</td>
+            <td class="number">${formatNumber(damage.total)}/${formatNumber(healing.total)}</td>
+            <td class="number">${formatNumber(damage.normal)}/${formatNumber(healing.normal)}</td>
+            <td class="number">${formatNumber(damage.critical)}/${formatNumber(healing.normal)}</td>
+            <td class="number">${formatNumber(damage.lucky)}/${formatNumber(healing.normal)}</td>
+            <td class="number">${formatNumber(damage.crit_lucky)}/${formatNumber(healing.normal)}</td>
             <td class="number">${count.total}</td>
             <td class="number">${formatPercentage(critRate)}</td>
         `;
-        
+
         tbody.appendChild(row);
-        
+
         // 移除动画类
         setTimeout(() => {
             row.classList.remove('stats-update');
@@ -304,13 +329,13 @@ function updateStatsTable() {
 // 添加日志消息
 function addLogMessage(level, message) {
     const now = new Date();
-    const timeString = now.toLocaleTimeString('zh-CN', { 
+    const timeString = now.toLocaleTimeString('zh-CN', {
         hour12: false,
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit'
     });
-    
+
     const logItem = document.createElement('div');
     logItem.className = 'log-item';
     logItem.innerHTML = `
@@ -320,16 +345,16 @@ function addLogMessage(level, message) {
             ${message}
         </div>
     `;
-    
+
     logContent.appendChild(logItem);
     logContent.scrollTop = logContent.scrollHeight;
-    
+
     // 保存到内存中
     logMessages.push({ timestamp: timeString, level, message });
-    
+
     // 更新日志计数
     updateLogCount();
-    
+
     // 限制日志数量
     if (logMessages.length > 1000) {
         logMessages.shift();
@@ -353,7 +378,13 @@ function updateMetricCharts() {
         parseFloat(totalMaxDps.textContent.replace(/[^\d.]/g, '') || 0),
         parseFloat(totalAvgDps.textContent.replace(/[^\d.]/g, '') || 0)
     );
-    
+
+    const maxHealingValue = Math.max(
+        parseFloat(totalRealtimeHps.textContent.replace(/[^\d.]/g, '') || 0),
+        parseFloat(totalMaxHps.textContent.replace(/[^\d.]/g, '') || 0),
+        parseFloat(totalAvgHps.textContent.replace(/[^\d.]/g, '') || 0)
+    );
+
     if (maxValue > 0) {
         // 更新实时DPS进度条
         const realtimeDpsPercent = (parseFloat(totalRealtimeDps.textContent.replace(/[^\d.]/g, '') || 0) / maxValue) * 100;
@@ -361,21 +392,21 @@ function updateMetricCharts() {
         if (realtimeChart) {
             realtimeChart.style.width = `${Math.min(realtimeDpsPercent, 100)}%`;
         }
-        
+
         // 更新峰值DPS进度条
         const maxDpsPercent = (parseFloat(totalMaxDps.textContent.replace(/[^\d.]/g, '') || 0) / maxValue) * 100;
         const maxChart = document.querySelector('.metric-card.danger .chart-bar');
         if (maxChart) {
             maxChart.style.width = `${Math.min(maxDpsPercent, 100)}%`;
         }
-        
+
         // 更新平均DPS进度条
         const avgDpsPercent = (parseFloat(totalAvgDps.textContent.replace(/[^\d.]/g, '') || 0) / maxValue) * 100;
         const avgChart = document.querySelector('.metric-card.success .chart-bar');
         if (avgChart) {
             avgChart.style.width = `${Math.min(avgDpsPercent, 100)}%`;
         }
-        
+
         // 总伤害使用独立的缩放
         const totalDamageValue = parseFloat(totalDamage.textContent.replace(/[^\d.]/g, '') || 0);
         const damageChart = document.querySelector('.metric-card.warning .chart-bar');
@@ -385,6 +416,39 @@ function updateMetricCharts() {
             damageChart.style.width = `${damagePercent}%`;
         }
     }
+
+    if (maxHealingValue > 0) {
+        // 更新实时DPS进度条
+        const realtimeHpsPercent = (parseFloat(totalRealtimeHps.textContent.replace(/[^\d.]/g, '') || 0) / maxHealingValue) * 100;
+        const realtimeChart = document.querySelector('.metric-card.primary .chart-healing-bar');
+        if (realtimeChart) {
+            realtimeChart.style.width = `${Math.min(realtimeHpsPercent, 100)}%`;
+        }
+
+        // 更新峰值DPS进度条
+        const maxHpsPercent = (parseFloat(totalMaxHps.textContent.replace(/[^\d.]/g, '') || 0) / maxHealingValue) * 100;
+        const maxChart = document.querySelector('.metric-card.danger .chart-healing-bar');
+        if (maxChart) {
+            maxChart.style.width = `${Math.min(maxHpsPercent, 100)}%`;
+        }
+
+        // 更新平均DPS进度条
+        const avgHpsPercent = (parseFloat(totalAvgHps.textContent.replace(/[^\d.]/g, '') || 0) / maxHealingValue) * 100;
+        const avgChart = document.querySelector('.metric-card.success .chart-healing-bar');
+        if (avgChart) {
+            avgChart.style.width = `${Math.min(avgHpsPercent, 100)}%`;
+        }
+
+        // 总伤害使用独立的缩放
+        const totalHealingValue = parseFloat(totalHealing.textContent.replace(/[^\d.]/g, '') || 0);
+        const healingChart = document.querySelector('.metric-card.warning .chart-healing-bar');
+        if (healingChart && totalHealingValue > 0) {
+            // 使用对数缩放来更好地显示大数值
+            const healingPercent = Math.min((Math.log10(totalHealingValue + 1) / Math.log10(1000000)) * 100, 100);
+            healingChart.style.width = `${healingPercent}%`;
+        }
+    }
+
 }
 
 // 加载设备列表
@@ -392,17 +456,17 @@ async function loadDeviceList() {
     try {
         deviceSelect.disabled = true;
         deviceSelect.innerHTML = '<option value="">正在加载设备...</option>';
-        
+
         const devices = await ipcRenderer.invoke('get-devices');
-        
+
         deviceSelect.innerHTML = '<option value="">请选择网络设备</option>';
-        
+
         if (devices.length === 0) {
             deviceSelect.innerHTML = '<option value="">未找到可用设备</option>';
             console.warn('未找到可用的网络设备，请检查权限或网络连接');
             return;
         }
-        
+
         devices.forEach(device => {
             const option = document.createElement('option');
             option.value = device.index;
@@ -410,12 +474,12 @@ async function loadDeviceList() {
             option.title = device.name;
             deviceSelect.appendChild(option);
         });
-        
+
         deviceSelect.disabled = false;
         // 确保开始按钮初始状态为禁用
         startCaptureBtn.disabled = true;
         console.info(`已加载 ${devices.length} 个网络设备`);
-        
+
     } catch (error) {
         deviceSelect.innerHTML = '<option value="">加载失败</option>';
         console.error('获取设备列表失败:', error);
@@ -427,20 +491,20 @@ async function initializeStatus() {
     try {
         const status = await ipcRenderer.invoke('get-capture-status');
         updateCaptureStatus(status.isCapturing, status.selectedDevice);
-        
+
         if (status.userUid) {
             playerUid.textContent = status.userUid;
         }
-        
+
         console.info('应用程序已启动');
-        
+
         // 加载设备列表
         await loadDeviceList();
-        
+
         // 检查悬浮窗状态
         const overlayStatus = await ipcRenderer.invoke('get-overlay-status');
         updateOverlayButton(overlayStatus);
-        
+
         if (status.isCapturing) {
             console.info(`正在设备 "${status.selectedDevice}" 上抓包`);
         }
@@ -491,7 +555,7 @@ function addTooltips() {
         'clearStatsBtn': 'Ctrl+D - 清除统计数据',
         'clearLogBtn': 'Ctrl+L - 清除日志'
     };
-    
+
     for (const [id, tooltip] of Object.entries(tooltips)) {
         const element = document.getElementById(id);
         if (element) {
@@ -508,7 +572,7 @@ async function initialize() {
     bindKeyboardShortcuts();
     addTooltips();
     await initializeStatus();
-    
+
     // 定期更新时间显示（如果需要）
     setInterval(() => {
         // 可以在这里添加定期更新的逻辑
@@ -522,7 +586,7 @@ document.addEventListener('DOMContentLoaded', initialize);
 window.addEventListener('beforeunload', (event) => {
     // 清理数据引用以释放内存
     statsData = null;
-    
+
     if (isCapturing) {
         event.preventDefault();
         event.returnValue = '正在进行数据包捕获，确定要关闭吗？';
@@ -625,7 +689,7 @@ function updateOverlayButton(enabled) {
     if (toggleOverlayBtn) {
         const btnText = toggleOverlayBtn.querySelector('.btn-text');
         const btnIcon = toggleOverlayBtn.querySelector('.btn-icon');
-        
+
         if (enabled) {
             btnText.textContent = '关闭悬浮窗';
             btnIcon.textContent = '📱';

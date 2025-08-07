@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DPS悬浮窗</title>
     <link rel="stylesheet" href="overlay-window.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <div class="overlay-container">
         <!-- 悬浮窗头部（可拖拽） -->
@@ -42,7 +45,7 @@
                         <div class="dps-bar-fill" id="realtimeDpsBar"></div>
                     </div>
                 </div>
-                
+
                 <div class="dps-item secondary">
                     <div class="dps-label">峰值DPS</div>
                     <div class="dps-value" id="maxDps">0</div>
@@ -50,12 +53,38 @@
                         <div class="dps-bar-fill max" id="maxDpsBar"></div>
                     </div>
                 </div>
-                
+
                 <div class="dps-item tertiary">
                     <div class="dps-label">平均DPS</div>
                     <div class="dps-value" id="avgDps">0</div>
                     <div class="dps-bar">
                         <div class="dps-bar-fill avg" id="avgDpsBar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dps-main">
+                <div class="dps-item primary">
+                    <div class="dps-label">实时HPS</div>
+                    <div class="dps-value" id="realtimeHps">0</div>
+                    <div class="dps-bar">
+                        <div class="dps-bar-fill" id="realtimeHpsBar"></div>
+                    </div>
+                </div>
+
+                <div class="dps-item secondary">
+                    <div class="dps-label">峰值HPS</div>
+                    <div class="dps-value" id="maxHps">0</div>
+                    <div class="dps-bar">
+                        <div class="dps-bar-fill max" id="maxHpsBar"></div>
+                    </div>
+                </div>
+
+                <div class="dps-item tertiary">
+                    <div class="dps-label">平均HPS</div>
+                    <div class="dps-value" id="avgHps">0</div>
+                    <div class="dps-bar">
+                        <div class="dps-bar-fill avg" id="avgHpsBar"></div>
                     </div>
                 </div>
             </div>
@@ -72,11 +101,15 @@
                         <span class="detail-value" id="totalDamage">0</span>
                     </div>
                     <div class="detail-row">
+                        <span class="detail-label">总治疗</span>
+                        <span class="detail-value" id="totalHealing">0</span>
+                    </div>
+                    <div class="detail-row">
                         <span class="detail-label">暴击率</span>
                         <span class="detail-value" id="critRate">0%</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">攻击次数</span>
+                        <span class="detail-label">攻击治疗次数</span>
                         <span class="detail-value" id="attackCount">0</span>
                     </div>
                     <div class="detail-row">
@@ -132,6 +165,8 @@
         // DOM元素
         let realtimeDps, maxDps, avgDps, totalDamage, critRate, attackCount, playerUid;
         let realtimeDpsBar, maxDpsBar, avgDpsBar;
+        let realtimeHps, maxHps, totalHealing;
+        let realtimeHpsBar, maxHpsBar, avgHpsBar;
         let pinBtn, settingsBtn, minimizeBtn, closeBtn, detailsToggle, detailsContent;
         let overlaySettings, closeSettingsBtn, opacitySlider, opacityValue, updateFrequencySelect;
         let showDetailsDefaultCheckbox;
@@ -143,27 +178,35 @@
             maxDps = document.getElementById('maxDps');
             avgDps = document.getElementById('avgDps');
             totalDamage = document.getElementById('totalDamage');
+            realtimeHps = document.getElementById('realtimeHps');
+            maxHps = document.getElementById('maxHps');
+            avgHps = document.getElementById('avgHps');
+            totalHealing = document.getElementById('totalHealing');
             critRate = document.getElementById('critRate');
             attackCount = document.getElementById('attackCount');
             playerUid = document.getElementById('playerUid');
-            
+
             // 调试：检查DOM元素是否正确获取
             console.log('悬浮窗DOM元素初始化:', {
                 playerUid: playerUid,
                 playerUidExists: !!playerUid
             });
-            
+
             realtimeDpsBar = document.getElementById('realtimeDpsBar');
             maxDpsBar = document.getElementById('maxDpsBar');
             avgDpsBar = document.getElementById('avgDpsBar');
-            
+
+            realtimeHpsBar = document.getElementById('realtimeHpsBar');
+            maxHpsBar = document.getElementById('maxHpsBar');
+            avgHpsBar = document.getElementById('avgHpsBar');
+
             pinBtn = document.getElementById('pinBtn');
             settingsBtn = document.getElementById('settingsBtn');
             minimizeBtn = document.getElementById('minimizeBtn');
             closeBtn = document.getElementById('closeBtn');
             detailsToggle = document.getElementById('detailsToggle');
             detailsContent = document.getElementById('detailsContent');
-            
+
             overlaySettings = document.getElementById('overlaySettings');
             closeSettingsBtn = document.getElementById('closeSettingsBtn');
             opacitySlider = document.getElementById('opacitySlider');
@@ -174,7 +217,7 @@
             bindEvents();
             loadSettings();
             updatePinButton();
-            
+
             // 确保详细统计默认展开
             if (detailsContent) {
                 detailsContent.style.display = detailsExpanded ? 'block' : 'none';
@@ -184,7 +227,7 @@
                 }
                 console.log('详细统计展开状态:', detailsExpanded);
             }
-            
+
             startDataUpdate();
         }
 
@@ -260,7 +303,7 @@
                     playerUidElement: playerUid,
                     playerUidExists: !!playerUid
                 });
-                
+
                 if (playerUid) {
                     playerUid.textContent = uid || '未检测';
                     console.log('UID已更新到悬浮窗，当前显示:', playerUid.textContent);
@@ -293,7 +336,7 @@
                     playerUidElement: playerUid,
                     playerUidExists: !!playerUid
                 });
-                
+
                 if (uid && playerUid) {
                     playerUid.textContent = uid;
                     console.log('悬浮窗主动获取UID成功，设置为:', uid);
@@ -315,13 +358,17 @@
         // 更新DPS显示
         function updateDpsDisplay() {
             const userIds = Object.keys(statsData);
-            
+
             if (userIds.length === 0) {
                 // 无数据时显示0
                 realtimeDps.textContent = '0';
                 maxDps.textContent = '0';
                 avgDps.textContent = '0';
                 totalDamage.textContent = '0';
+                realtimeHps.textContent = '0';
+                maxHps.textContent = '0';
+                avgHps.textContent = '0';
+                totalHealing.textContent = '0';
                 critRate.textContent = '0%';
                 attackCount.textContent = '0';
                 updateProgressBars(0, 0, 0);
@@ -333,6 +380,12 @@
             let totalMaxDpsValue = 0;
             let totalAvgDpsValue = 0;
             let totalDamageValue = 0;
+
+            let totalRealtimeHpsValue = 0;
+            let totalMaxHpsValue = 0;
+            let totalAvgHpsValue = 0;
+            let totalHealingValue = 0;
+
             let totalCritCount = 0;
             let totalAttackCount = 0;
 
@@ -342,12 +395,19 @@
                 totalMaxDpsValue = Math.max(totalMaxDpsValue, userData.realtime_dps_max || 0);
                 totalAvgDpsValue += userData.total_dps || 0;
                 totalDamageValue += userData.total_damage.total || 0;
+
+                totalRealtimeHpsValue += userData.realtime_hps || 0;
+                totalMaxHpsValue = Math.max(totalMaxHpsValue, userData.realtime_hps_max || 0);
+                totalAvgHpsValue += userData.total_hps || 0;
+                totalHealingValue += userData.total_healing.total || 0;
+
                 totalCritCount += userData.total_count.critical || 0;
                 totalAttackCount += userData.total_count.total || 0;
             }
 
             if (userIds.length > 0) {
                 totalAvgDpsValue = totalAvgDpsValue / userIds.length;
+                totalAvgHpsValue = totalAvgHpsValue / userIds.length;
             }
 
             const critRateValue = totalAttackCount > 0 ? (totalCritCount / totalAttackCount) : 0;
@@ -357,30 +417,53 @@
             maxDps.textContent = formatNumber(totalMaxDpsValue);
             avgDps.textContent = formatNumber(totalAvgDpsValue);
             totalDamage.textContent = formatNumber(totalDamageValue);
+
+            realtimeHps.textContent = formatNumber(totalRealtimeHpsValue);
+            maxHps.textContent = formatNumber(totalMaxHpsValue);
+            avgHps.textContent = formatNumber(totalAvgHpsValue);
+            totalHealing.textContent = formatNumber(totalHealingValue);
+
             critRate.textContent = (critRateValue * 100).toFixed(1) + '%';
             attackCount.textContent = totalAttackCount.toString();
 
             // 更新进度条
-            updateProgressBars(totalRealtimeDpsValue, totalMaxDpsValue, totalAvgDpsValue);
+            updateProgressBars(totalRealtimeDpsValue, totalMaxDpsValue, totalAvgDpsValue, 'dps');
+
+            updateProgressBars(totalRealtimeHpsValue, totalMaxHpsValue, totalAvgHpsValue, 'hps');
         }
 
         // 更新进度条
-        function updateProgressBars(realtime, max, avg) {
+        function updateProgressBars(realtime, max, avg, type = null) {
             const maxValue = Math.max(realtime, max, avg) || 1;
-            
+
             const realtimePercent = (realtime / maxValue) * 100;
             const maxPercent = (max / maxValue) * 100;
             const avgPercent = (avg / maxValue) * 100;
-            
-            realtimeDpsBar.style.width = `${Math.min(realtimePercent, 100)}%`;
-            maxDpsBar.style.width = `${Math.min(maxPercent, 100)}%`;
-            avgDpsBar.style.width = `${Math.min(avgPercent, 100)}%`;
+
+            if (type == 'dps') {
+                realtimeDpsBar.style.width = `${Math.min(realtimePercent, 100)}%`;
+                maxDpsBar.style.width = `${Math.min(maxPercent, 100)}%`;
+                avgDpsBar.style.width = `${Math.min(avgPercent, 100)}%`;
+            } else if (type == 'hps') {
+                realtimeHpsBar.style.width = `${Math.min(realtimePercent, 100)}%`;
+                maxHpsBar.style.width = `${Math.min(maxPercent, 100)}%`;
+                avgHpsBar.style.width = `${Math.min(avgPercent, 100)}%`;
+            } else {
+                realtimeDpsBar.style.width = `${Math.min(realtimePercent, 100)}%`;
+                maxDpsBar.style.width = `${Math.min(maxPercent, 100)}%`;
+                avgDpsBar.style.width = `${Math.min(avgPercent, 100)}%`;
+                realtimeHpsBar.style.width = `${Math.min(realtimePercent, 100)}%`;
+                maxHpsBar.style.width = `${Math.min(maxPercent, 100)}%`;
+                avgHpsBar.style.width = `${Math.min(avgPercent, 100)}%`;
+
+            }
+
         }
 
         // 格式化数字
         function formatNumber(num) {
             if (typeof num !== 'number' || isNaN(num)) return '0';
-            
+
             if (num >= 1000000) {
                 return (num / 1000000).toFixed(1) + 'M';
             } else if (num >= 1000) {
@@ -421,26 +504,26 @@
         function loadSettings() {
             try {
                 const settings = JSON.parse(localStorage.getItem('overlaySettings') || '{}');
-                
+
                 if (settings.opacity !== undefined) {
                     opacity = settings.opacity;
                     opacitySlider.value = opacity;
                     opacityValue.textContent = opacity + '%';
                     document.body.style.opacity = opacity / 100;
                 }
-                
+
                 if (settings.updateFreency !== undefined) {
                     updateFreency = settings.updateFreency;
                     updateFrequencySelect.value = updateFreency;
                 }
-                
+
                 if (settings.detailsExpanded !== undefined) {
                     detailsExpanded = settings.detailsExpanded;
                     showDetailsDefaultCheckbox.checked = detailsExpanded;
                     detailsContent.style.display = detailsExpanded ? 'block' : 'none';
                     document.querySelector('.details-arrow').textContent = detailsExpanded ? '▼' : '▶';
                 }
-                
+
                 if (settings.isPinned !== undefined) {
                     isPinned = settings.isPinned;
                     ipcRenderer.invoke('overlay-set-always-on-top', isPinned);
@@ -465,4 +548,5 @@
         });
     </script>
 </body>
+
 </html>
