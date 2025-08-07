@@ -4,6 +4,7 @@ const cap = require('cap');
 const winston = require("winston");
 const zlib = require('zlib');
 const pb = require('./algo/pb');
+const PacketProcessor = require('./algo/packet');
 const { Readable } = require("stream");
 
 const Cap = cap.Cap;
@@ -553,6 +554,8 @@ function createOverlayWindow() {
     const primaryDisplay = screen.getPrimaryDisplay();
     const { width, height } = primaryDisplay.workAreaSize;
     overlayWindow.setPosition(width - 350, 50);
+    overlayWindow.setAlwaysOnTop(true, "screen-saver")
+    overlayWindow.setVisibleOnAllWorkspaces(true)
 
     // 开发时打开开发者工具
     if (process.env.NODE_ENV === 'development') {
@@ -598,182 +601,6 @@ function getDeviceList() {
     } catch (error) {
         logger.error('获取设备列表失败:', error);
         return [];
-    }
-}
-
-// 数据处理函数
-function processPacket(buf) {
-    try {
-        if (buf.length < 32) return;
-
-        if (buf[4] & 0x80) { // zstd压缩
-            if (!zlib.zstdDecompressSync) {
-                logger.warn('zstdDecompressSync不可用! 请检查Node.js版本!');
-                return;
-            }
-            const decompressed = zlib.zstdDecompressSync(buf.subarray(10));
-            buf = Buffer.concat([buf.subarray(0, 10), decompressed]);
-        }
-
-        const data = buf.subarray(10);
-        if (data.length) {
-            const stream = Readable.from(data, { objectMode: false });
-            let data1;
-
-            do {
-                const len_buf = stream.read(4);
-                if (!len_buf) break;
-                data1 = stream.read(len_buf.readUInt32BE() - 4);
-
-                try {
-                    let body = pb.decode(data1.subarray(18)) || {};
-
-                    if (data1[17] === 0x2e) {
-                        body = body[1];
-                        if (body[5]) {
-                            // 玩家UID
-                            const uid = BigInt(body[5]) >> 16n;
-                            if (user_uid !== uid) {
-                                user_uid = uid;
-                                logger.info('获取到玩家UID: ' + user_uid);
-                                // 通知渲染进程
-                                if (mainWindow) {
-                                    mainWindow.webContents.send('player-uid-updated', user_uid.toString());
-                                }
-                                // 通知悬浮窗
-                                if (overlayWindow) {
-                                    overlayWindow.webContents.send('player-uid-updated', user_uid.toString());
-                                }
-                            }
-                        }
-                    }
-
-                    let body1 = body[1];
-                    if (body1) {
-                        if (!Array.isArray(body1)) body1 = [body1];
-
-                        for (const b of body1) {
-                            if (b[7] && b[7][2]) {
-                                logger.debug(b.toBase64());
-                                const hits = Array.isArray(b[7][2]) ? b[7][2] : [b[7][2]];
-
-                                for (const hit of hits) {
-                                    const skill = hit[12];
-                                    if (typeof skill !== 'number') continue;
-
-                                    const value = hit[6], luckyValue = hit[8], isMiss = !!hit[2], isCrit = !!hit[5], hpLessenValue = hit[9] ?? 0;
-                                    const isHeal = hit[4] === 2, isDead = !!hit[17], isLucky = !!luckyValue;
-                                    const operatorUUID = hit[21] || hit[11], targetUUID = b[1];
-                                    const damage = value ?? luckyValue ?? 0;
-                                    if (typeof damage !== 'number') continue;
-
-                                    const operator_uid = BigInt(hit[21] || hit[11]) >> 16n;
-                                    const target_uid = Number(BigInt(targetUUID) >> 16n);
-                                    const operator_is_player = (BigInt(operatorUUID) & 0xffffn) === 640n; // 释放技能的是玩家
-                                    const target_is_player = (BigInt(targetUUID) & 0xffffn) === 640n; // 技能目标是玩家
-                                    if (!operator_uid) continue;
-
-                                    let srcTargetStr = operator_is_player ? ('Src: ' + operator_uid) : ('SrcUUID: ' + operatorUUID);
-                                    srcTargetStr += target_is_player ? (' Tgt: ' + target_uid) : (' TgtUUID: ' + targetUUID);
-
-                                    if (target_is_player) { //玩家目标
-                                        if (isHeal) { //玩家被治疗
-                                            if (operator_is_player) { //只记录玩家造成的治疗
-                                                // logger.info('ID: ' + operator_uid + 'healing: ' + damage + 'isCrit: ' + isCrit + 'isLucky: ' + isLucky)
-                                                userDataManager.addHealing(operator_uid, damage, isCrit, isLucky);
-                                            }
-                                        } else { //玩家受到伤害
-                                            userDataManager.addTakenDamage(target_uid, damage);
-                                            // logger.info('ID: ' + target_uid + 'damage_taken: ' + damage)
-                                        }
-                                    } else { //非玩家目标
-                                        if (isHeal) { //非玩家被治疗
-                                        }
-                                        else { //非玩家受到伤害
-                                            if (operator_is_player) { //只记录玩家造成的伤害
-                                                // 计算伤害统计
-                                                userDataManager.addDamage(operator_uid, skill, damage, isCrit, isLucky, hpLessenValue);
-                                            }
-                                        }
-                                    }
-
-                                    if (operator_is_player) {
-                                        let roleName;
-                                        switch (skill) {
-                                            case 1241:
-                                                roleName = '射线';
-                                                break;
-                                            case 55302:
-                                                roleName = '协奏';
-                                                break;
-                                            case 20301:
-                                                roleName = '愈合';
-                                                break;
-                                            case 1518:
-                                                roleName = '惩戒';
-                                                break;
-                                            case 2306:
-                                                roleName = '狂音';
-                                                break;
-                                            case 120902:
-                                                roleName = '冰矛';
-                                                break;
-                                            case 1714:
-                                                roleName = '居合';
-                                                break;
-                                            case 44701:
-                                                roleName = '月刃';
-                                                break;
-                                            case 220112:
-                                            case 2203622:
-                                                roleName = '鹰弓';
-                                                break;
-                                            case 1700827:
-                                                roleName = '狼弓';
-                                                break;
-                                            case 1419:
-                                                roleName = '空枪';
-                                                break;
-                                            case 1418:
-                                                roleName = '重装';
-                                                break;
-                                            case 2405:
-                                                roleName = '防盾';
-                                                break;
-                                            case 2406:
-                                                roleName = '光盾';
-                                                break;
-                                            case 199902:
-                                                roleName = '岩盾';
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                        if (roleName) userDataManager.setProfession(operator_uid, roleName);
-                                    }
-
-                                    let extra = [];
-                                    if (isCrit) extra.push('Crit');
-                                    if (isLucky) extra.push('Lucky');
-                                    if (extra.length === 0) extra = ['Normal'];
-
-                                    const actionType = isHeal ? 'Healing' : 'Damage';
-                                    // logger.info(srcTargetStr + ' Skill/Buff: ' + skill + ' ' + actionType + ': ' + damage +
-                                    //     (isHeal ? '' : ' HpLessen: ' + hpLessenValue) +
-                                    //     ' Extra: ' + extra.join('|')
-                                    // );
-                                }
-                            }
-                        }
-                    }
-                } catch (e) {
-                    logger.debug(e);
-                    logger.debug(data1.subarray(18).toString('hex'));
-                }
-            } while (data1 && data1.length);
-        }
-    } catch (e) {
-        logger.debug(e);
     }
 }
 
@@ -895,11 +722,11 @@ function startCapture(deviceIndex) {
                         // TCP包重组处理
                         await tcp_lock.acquire();
 
-                        if (tcp_next_seq === -1 && buf.length > 4 && buf.readUInt32BE() < 999999) {
+                        if (tcp_next_seq === -1 && buf.length > 4 && buf.readUInt32BE() < 999999) { // 第一次抓包可能抓到后半段的，先丢了
                             tcp_next_seq = ret.info.seqno;
                         }
 
-                        logger.debug('TCP next seq: ' + tcp_next_seq);
+                        // logger.debug('TCP next seq: ' + tcp_next_seq);
                         tcp_cache[ret.info.seqno] = buf;
                         tcp_cache_size++;
 
@@ -920,16 +747,18 @@ function startCapture(deviceIndex) {
                         }
 
                         while (_data.length > 4) {
-                            let len = _data.readUInt32BE();
-                            if (_data.length >= len) {
-                                const packet = _data.subarray(0, len);
-                                _data = _data.subarray(len);
-                                processPacket(packet);
-                            } else {
-                                if (len > 999999) {
-                                    logger.error(`无效长度!! ${_data.length},${len},${_data.toString('hex')},${tcp_next_seq}`);
-                                    process.exit(1);
-                                }
+                            let packetSize = _data.readUInt32BE();
+
+                            if (_data.length < packetSize) break;
+    
+                            if (_data.length >= packetSize) {
+                                const packet = _data.subarray(0, packetSize);
+                                _data = _data.subarray(packetSize);
+                                const processor = new PacketProcessor({ logger, userDataManager });
+                                processor.processPacket(packet);
+                            } else if (packetSize > 999999) {
+                                logger.error(`无效长度!! ${_data.length},${len},${_data.toString('hex')},${tcp_next_seq}`);
+                                process.exit(1);
                                 break;
                             }
                         }
@@ -1042,10 +871,13 @@ function startDataUpdateTimers() {
 
         // 清理TCP缓存中的过期数据
         for (const key of Object.keys(tcp_cache)) {
-            if (now - tcp_cache[key].time > maxAge) {
-                delete tcp_cache[key];
-                tcp_cache_size--;
+            if (tcp_cache[key] && tcp_cache[key].time) {
+                if (now - tcp_cache[key].time > maxAge) {
+                    delete tcp_cache[key];
+                    tcp_cache_size--;
+                }
             }
+
         }
 
         // 限制TCP缓存大小
@@ -1167,7 +999,8 @@ ipcMain.handle('overlay-close', () => {
 
 ipcMain.handle('overlay-set-always-on-top', (event, alwaysOnTop) => {
     if (overlayWindow) {
-        overlayWindow.setAlwaysOnTop(alwaysOnTop);
+        overlayWindow.setAlwaysOnTop(alwaysOnTop, "screen-saver");
+        overlayWindow.setVisibleOnAllWorkspaces(alwaysOnTop)
     }
 });
 
