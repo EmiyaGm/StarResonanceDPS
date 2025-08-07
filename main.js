@@ -21,12 +21,6 @@ let isCapturing = false;
 let selectedDevice = null;
 let overlayEnabled = false;
 
-// 数据统计变量
-let total_damage = {};
-let total_count = {};
-let dps_window = {};
-let damage_time = {};
-let realtime_dps = {};
 
 // 网络包处理变量
 let user_uid;
@@ -682,28 +676,6 @@ function processPacket(buf) {
                                     let srcTargetStr = operator_is_player ? ('Src: ' + operator_uid) : ('SrcUUID: ' + operatorUUID);
                                     srcTargetStr += target_is_player ? (' Tgt: ' + target_uid) : (' TgtUUID: ' + targetUUID);
 
-                                    // 初始化数据结构
-                                    if (!total_damage[operator_uid]) {
-                                        total_damage[operator_uid] = {
-                                            normal: 0,
-                                            critical: 0,
-                                            lucky: 0,
-                                            crit_lucky: 0,
-                                            hpLessen: 0,
-                                            total: 0,
-                                            skillUsage: new Map()
-                                        };
-                                    }
-
-                                    if (!total_count[operator_uid]) {
-                                        total_count[operator_uid] = {
-                                            normal: 0,
-                                            critical: 0,
-                                            lucky: 0,
-                                            total: 0,
-                                        };
-                                    }
-
                                     if (target_is_player) { //玩家目标
                                         if (isHeal) { //玩家被治疗
                                             if (operator_is_player) { //只记录玩家造成的治疗
@@ -720,26 +692,6 @@ function processPacket(buf) {
                                         else { //非玩家受到伤害
                                             if (operator_is_player) { //只记录玩家造成的伤害
                                                 // 计算伤害统计
-                                                total_damage[operator_uid].skill = skill;
-                                                if (isCrit) {
-                                                    total_count[operator_uid].critical++;
-                                                    if (luckyValue) {
-                                                        total_damage[operator_uid].crit_lucky += damage;
-                                                        total_count[operator_uid].lucky++;
-                                                    } else {
-                                                        total_damage[operator_uid].critical += damage;
-                                                    }
-                                                } else if (luckyValue) {
-                                                    total_damage[operator_uid].lucky += damage;
-                                                    total_count[operator_uid].lucky++;
-                                                } else {
-                                                    total_damage[operator_uid].normal += damage;
-                                                    total_count[operator_uid].normal++;
-                                                }
-
-                                                total_damage[operator_uid].total += damage;
-                                                total_damage[operator_uid].hpLessen += hpLessenValue;
-                                                total_count[operator_uid].total++;
                                                 userDataManager.addDamage(operator_uid, skill, damage, isCrit, isLucky, hpLessenValue);
                                             }
                                         }
@@ -798,22 +750,6 @@ function processPacket(buf) {
                                                 break;
                                         }
                                         if (roleName) userDataManager.setProfession(operator_uid, roleName);
-                                    }
-
-
-                                    // DPS窗口数据
-                                    if (!dps_window[operator_uid]) dps_window[operator_uid] = [];
-                                    dps_window[operator_uid].push({
-                                        time: Date.now(),
-                                        damage,
-                                    });
-
-                                    // 记录时间
-                                    if (!damage_time[operator_uid]) damage_time[operator_uid] = [];
-                                    if (damage_time[operator_uid][0]) {
-                                        damage_time[operator_uid][1] = Date.now();
-                                    } else {
-                                        damage_time[operator_uid][0] = Date.now();
                                     }
 
                                     let extra = [];
@@ -1041,29 +977,6 @@ function clearStats() {
 function startDataUpdateTimers() {
     // 计算实时DPS
     statsUpdateInterval = setInterval(() => {
-        const now = Date.now();
-        for (const uid of Object.keys(dps_window)) {
-            while (dps_window[uid].length > 0 && now - dps_window[uid][0].time > 1000) {
-                dps_window[uid].shift();
-            }
-
-            if (!realtime_dps[uid]) {
-                realtime_dps[uid] = {
-                    value: 0,
-                    max: 0,
-                };
-            }
-
-            realtime_dps[uid].value = 0;
-            for (const b of dps_window[uid]) {
-                realtime_dps[uid].value += b.damage;
-            }
-
-            if (realtime_dps[uid].value > realtime_dps[uid].max) {
-                realtime_dps[uid].max = realtime_dps[uid].value;
-            }
-        }
-
         // 发送数据到渲染进程
         // const userData = {};
         // for (const uid of Object.keys(total_damage)) {
@@ -1125,15 +1038,7 @@ function startDataUpdateTimers() {
         const now = Date.now();
         const maxAge = 300000; // 5分钟
 
-        // 清理过期的DPS窗口数据
-        for (const uid of Object.keys(dps_window)) {
-            if (dps_window[uid]) {
-                dps_window[uid] = dps_window[uid].filter(item => now - item.time <= maxAge);
-                if (dps_window[uid].length === 0) {
-                    delete dps_window[uid];
-                }
-            }
-        }
+        // 清理过期的DPS窗口数据 TODO
 
         // 清理TCP缓存中的过期数据
         for (const key of Object.keys(tcp_cache)) {
@@ -1158,7 +1063,7 @@ function startDataUpdateTimers() {
             logQueue = logQueue.slice(-50);
         }
 
-        logger.debug(`内存清理完成 - DPS窗口: ${Object.keys(dps_window).length}, TCP缓存: ${tcp_cache_size}, 日志缓存: ${logQueue.length}`);
+        logger.debug(`内存清理完成 - TCP缓存: ${tcp_cache_size}, 日志缓存: ${logQueue.length}`);
     }, 30000);
 }
 
