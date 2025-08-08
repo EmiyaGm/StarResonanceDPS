@@ -304,7 +304,7 @@ function updateStatsTable() {
         row.className = 'stats-update';
 
         row.innerHTML = `
-            <td>${uid}(${userData.profession})${playerUid.textContent == uid ? '(你)' : ''}</td>
+            <td>${userData.name ? `${userData.name}(${uid})` : uid}(${userData.profession})${playerUid.textContent == uid ? '(你)' : ''}</td>
             <td class="number">${formatNumber(userData.realtime_dps)}/${formatNumber(userData.realtime_hps)}</td>
             <td class="number">${formatNumber(userData.realtime_dps_max)}/${formatNumber(userData.realtime_hps_max)}</td>
             <td class="number">${formatNumber(userData.total_dps)}/${formatNumber(userData.total_hps)}</td>
