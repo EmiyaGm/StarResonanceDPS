@@ -1,0 +1,354 @@
+{
+  "3043": {
+    "name": "Rk",
+    "profession": "神盾骑士"
+  },
+  "20917": {
+    "name": "斋贺铃",
+    "profession": "雷影剑士"
+  },
+  "25397": {
+    "name": "月",
+    "profession": "冰魔导师"
+  },
+  "51863": {
+    "name": "猪猪萄",
+    "profession": "神射手"
+  },
+  "66511": {
+    "name": "飘飘的云",
+    "profession": "灵魂乐手"
+  },
+  "148084": {
+    "name": "鸢尾K",
+    "profession": "森语者"
+  },
+  "213077": {
+    "name": "害目害目",
+    "profession": "冰魔导师"
+  },
+  "242232": {
+    "name": "Kirito",
+    "profession": "雷影剑士"
+  },
+  "256093": {
+    "name": "猫吉吉",
+    "profession": "神盾骑士"
+  },
+  "443165": {
+    "name": "寒星雨",
+    "profession": "森语者"
+  },
+  "450687": {
+    "name": "多多",
+    "profession": "雷影剑士"
+  },
+  "520916": {
+    "name": "YolanCuel",
+    "profession": "青岚骑士"
+  },
+  "561624": {
+    "name": "徐半仙",
+    "profession": "冰魔导师"
+  },
+  "598773": {
+    "name": "紫苑诗音",
+    "profession": "灵魂乐手"
+  },
+  "649492": {
+    "name": "芙兰朵露",
+    "profession": "冰魔导师"
+  },
+  "1118404": {
+    "name": "雪泉",
+    "profession": "青岚骑士"
+  },
+  "1241902": {
+    "name": "微笑",
+    "profession": "冰魔导师"
+  },
+  "1255726": {
+    "name": "露露卡洛斯",
+    "profession": "冰魔导师"
+  },
+  "1276293": {
+    "name": "Doro爱撒尿",
+    "profession": "雷影剑士"
+  },
+  "1366520": {
+    "name": "星辰丷",
+    "profession": "雷影剑士"
+  },
+  "1547148": {
+    "name": "麻薯不能吃",
+    "profession": "神射手"
+  },
+  "1820750": {
+    "name": "亦宁",
+    "profession": "冰魔导师"
+  },
+  "1866502": {
+    "name": "浅浅",
+    "profession": "雷影剑士"
+  },
+  "1970878": {
+    "name": "云风千叶",
+    "profession": "森语者"
+  },
+  "2360082": {
+    "name": "小辞晚",
+    "profession": "冰魔导师"
+  },
+  "2480948": {
+    "name": "七星瓢虫",
+    "profession": "冰魔导师"
+  },
+  "2872241": {
+    "name": "Piero",
+    "profession": "青岚骑士"
+  },
+  "3113183": {
+    "name": "邪酱",
+    "profession": "森语者"
+  },
+  "3492237": {
+    "name": "Nyanyao",
+    "profession": "森语者"
+  },
+  "3505080": {
+    "name": "玉米",
+    "profession": "神射手"
+  },
+  "3508962": {
+    "name": "saber",
+    "profession": "神盾骑士"
+  },
+  "3510290": {
+    "name": "柠檬",
+    "profession": "青岚骑士"
+  },
+  "3914433": {
+    "name": "多空皆有道",
+    "profession": "雷影剑士"
+  },
+  "4098287": {
+    "name": "清酒",
+    "profession": "冰魔导师"
+  },
+  "4547009": {
+    "name": "LinMingPoi丿",
+    "profession": "神盾骑士"
+  },
+  "4739220": {
+    "name": "大水牛",
+    "profession": "神盾骑士"
+  },
+  "5976183": {
+    "name": "只抽第五代",
+    "profession": "青岚骑士"
+  },
+  "6351188": {
+    "name": "琉璃凑",
+    "profession": "雷影剑士"
+  },
+  "8194865": {
+    "name": "柯蕾贝尔",
+    "profession": "神盾骑士"
+  },
+  "8436599": {
+    "name": "喵小贝",
+    "profession": "神射手"
+  },
+  "8625058": {
+    "name": "城川怜纱",
+    "profession": "神射手"
+  },
+  "8633280": {
+    "name": "哔哔哔",
+    "profession": "雷影剑士"
+  },
+  "8635151": {
+    "name": "Artorias",
+    "profession": "冰魔导师"
+  },
+  "9019562": {
+    "name": "凛",
+    "profession": "灵魂乐手"
+  },
+  "9427377": {
+    "name": "猫耳",
+    "profession": "神射手"
+  },
+  "9453803": {
+    "name": "天际流星",
+    "profession": "冰魔导师"
+  },
+  "9664673": {
+    "name": "MAO",
+    "profession": "神盾骑士"
+  },
+  "9845245": {
+    "name": "黑皮大宝",
+    "profession": "冰魔导师"
+  },
+  "10050150": {
+    "name": "红烧鱼",
+    "profession": "青岚骑士"
+  },
+  "11062006": {
+    "name": "Venus",
+    "profession": "雷影剑士"
+  },
+  "11882612": {
+    "name": "炙烤大鲨鱼",
+    "profession": "神射手"
+  },
+  "11901350": {
+    "name": "WYERLL",
+    "profession": "神射手"
+  },
+  "12704125": {
+    "name": "但愿夜不明",
+    "profession": "神盾骑士"
+  },
+  "13928520": {
+    "name": "注意关门",
+    "profession": "冰魔导师"
+  },
+  "14748036": {
+    "name": "XiaoshuaiNB",
+    "profession": "神射手"
+  },
+  "17001241": {
+    "name": "日白犟",
+    "profession": "神射手"
+  },
+  "18231648": {
+    "name": "sakula灬",
+    "profession": "雷影剑士"
+  },
+  "19256026": {
+    "name": "陆太丶",
+    "profession": "神射手"
+  },
+  "22948514": {
+    "name": "SKYJW",
+    "profession": "青岚骑士"
+  },
+  "26444162": {
+    "name": "殀丶月",
+    "profession": "神射手"
+  },
+  "26629114": {
+    "name": "逸尘近卫队队长",
+    "profession": "巨刃守护者"
+  },
+  "26831327": {
+    "name": "chrvzn",
+    "profession": "森语者"
+  },
+  "27655133": {
+    "name": "都督",
+    "profession": "雷影剑士"
+  },
+  "29084184": {
+    "name": "雲筱",
+    "profession": "巨刃守护者"
+  },
+  "33186463": {
+    "name": "BlkLeon",
+    "profession": "神盾骑士"
+  },
+  "33593467": {
+    "name": "dallars",
+    "profession": "青岚骑士"
+  },
+  "35227733": {
+    "name": "不是舒恩",
+    "profession": "神盾骑士"
+  },
+  "35637460": {
+    "name": "老番茄肉汤",
+    "profession": "冰魔导师"
+  },
+  "36661562": {
+    "name": "坠机身法",
+    "profession": "神盾骑士"
+  },
+  "40557250": {
+    "name": "霜序",
+    "profession": "森语者"
+  },
+  "41577203": {
+    "name": "映月",
+    "profession": "灵魂乐手"
+  },
+  "41793942": {
+    "name": "宫连月",
+    "profession": "冰魔导师"
+  },
+  "42805786": {
+    "name": "与天齐",
+    "profession": "神射手"
+  },
+  "43635022": {
+    "name": "医疗人型寇尓芙",
+    "profession": "森语者"
+  },
+  "44239705": {
+    "name": "花音",
+    "profession": "森语者"
+  },
+  "45468035": {
+    "name": "大魔导师",
+    "profession": "冰魔导师"
+  },
+  "45877990": {
+    "name": "乌鲁鲁",
+    "profession": "青岚骑士"
+  },
+  "46315656": {
+    "name": "乙爱丽丝",
+    "profession": "神盾骑士"
+  },
+  "46492005": {
+    "name": "我一直在",
+    "profession": "冰魔导师"
+  },
+  "46508388": {
+    "name": "大聲告诉我",
+    "profession": "青岚骑士"
+  },
+  "47106432": {
+    "name": "莉锦波",
+    "profession": "神射手"
+  },
+  "47325528": {
+    "name": "折个纸飞机",
+    "profession": "青岚骑士"
+  },
+  "50383125": {
+    "name": "予",
+    "profession": "雷影剑士"
+  },
+  "52021563": {
+    "name": "蓝调",
+    "profession": "青岚骑士"
+  },
+  "53049435": {
+    "name": "KOTenOwO",
+    "profession": "神射手"
+  },
+  "54683937": {
+    "name": "黎霜",
+    "profession": "雷影剑士"
+  },
+  "55093894": {
+    "name": "钠tt",
+    "profession": "冰魔导师"
+  },
+  "57555186": {
+    "name": "好人2号",
+    "profession": "雷影剑士"
+  }
+}
