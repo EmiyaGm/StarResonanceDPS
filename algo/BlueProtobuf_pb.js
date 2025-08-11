@@ -56976,19 +56976,19 @@ proto.EquipList.deserializeBinaryFromReader = function(msg, reader) {
       reader.readMessage(value,proto.EquipAttr.deserializeBinaryFromReader);
       msg.setEquipattr(value);
       break;
-    case 3:
+    case 4:
       var value = msg.getEquiprecastinfoMap();
       reader.readMessage(value, function(message, reader) {
         jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readUint64, jspb.BinaryReader.prototype.readMessage, proto.EquipAttr.deserializeBinaryFromReader, 0, new proto.EquipAttr());
          });
       break;
-    case 4:
+    case 5:
       var value = msg.getEquipenchantMap();
       reader.readMessage(value, function(message, reader) {
         jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readInt64, jspb.BinaryReader.prototype.readMessage, proto.EquipEnchantInfo.deserializeBinaryFromReader, 0, new proto.EquipEnchantInfo());
          });
       break;
-    case 5:
+    case 6:
       var value = msg.getSuitinfodictMap();
       reader.readMessage(value, function(message, reader) {
         jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readInt32, jspb.BinaryReader.prototype.readMessage, proto.EquipSuitInfo.deserializeBinaryFromReader, 0, new proto.EquipSuitInfo());
@@ -61338,27 +61338,27 @@ proto.SkillCDInfo.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readUint32());
       msg.setSkillcdtype(value);
       break;
-    case 5:
+    case 6:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setProfessionholdbegintime(value);
       break;
-    case 6:
+    case 7:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setChargecount(value);
       break;
-    case 7:
+    case 8:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setValidcdtime(value);
       break;
-    case 8:
+    case 9:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setSubcdratio(value);
       break;
-    case 9:
+    case 10:
       var value = /** @type {number} */ (reader.readInt64());
       msg.setSubcdfixed(value);
       break;
-    case 10:
+    case 11:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setAcceleratecdratio(value);
       break;
@@ -88688,13 +88688,13 @@ proto.LifeProfessionBasic.deserializeBinaryFromReader = function(msg, reader) {
       var value = /** @type {number} */ (reader.readInt32());
       msg.setExp(value);
       break;
-    case 4:
+    case 5:
       var value = msg.getSpecializationMap();
       reader.readMessage(value, function(message, reader) {
         jspb.Map.deserializeBinary(message, reader, jspb.BinaryReader.prototype.readInt32, jspb.BinaryReader.prototype.readMessage, proto.LiftProfessionSpecialization.deserializeBinaryFromReader, 0, new proto.LiftProfessionSpecialization());
          });
       break;
-    case 5:
+    case 6:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setCurrentspecializationpoint(value);
       break;

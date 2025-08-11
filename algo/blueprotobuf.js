@@ -28757,7 +28757,7 @@
                         m.EquipAttr = $root.EquipAttr.decode(r, r.uint32());
                         break;
                     }
-                case 3: {
+                case 4: {
                         if (m.EquipRecastInfo === $util.emptyObject)
                             m.EquipRecastInfo = {};
                         var c2 = r.uint32() + r.pos;
@@ -28780,7 +28780,7 @@
                         m.EquipRecastInfo[typeof k === "object" ? $util.longToHash(k) : k] = value;
                         break;
                     }
-                case 4: {
+                case 5: {
                         if (m.EquipEnchant === $util.emptyObject)
                             m.EquipEnchant = {};
                         var c2 = r.uint32() + r.pos;
@@ -28803,7 +28803,7 @@
                         m.EquipEnchant[typeof k === "object" ? $util.longToHash(k) : k] = value;
                         break;
                     }
-                case 5: {
+                case 6: {
                         if (m.SuitInfoDict === $util.emptyObject)
                             m.SuitInfoDict = {};
                         var c2 = r.uint32() + r.pos;
@@ -31332,27 +31332,27 @@
                         m.SkillCDType = r.uint32();
                         break;
                     }
-                case 5: {
+                case 6: {
                         m.ProfessionHoldBeginTime = r.int64();
                         break;
                     }
-                case 6: {
+                case 7: {
                         m.ChargeCount = r.int32();
                         break;
                     }
-                case 7: {
+                case 8: {
                         m.ValidCDTime = r.int32();
                         break;
                     }
-                case 8: {
+                case 9: {
                         m.SubCDRatio = r.int32();
                         break;
                     }
-                case 9: {
+                case 10: {
                         m.SubCDFixed = r.int64();
                         break;
                     }
-                case 10: {
+                case 11: {
                         m.AccelerateCDRatio = r.int32();
                         break;
                     }
@@ -48122,7 +48122,7 @@
                         m.Exp = r.int32();
                         break;
                     }
-                case 4: {
+                case 5: {
                         if (m.Specialization === $util.emptyObject)
                             m.Specialization = {};
                         var c2 = r.uint32() + r.pos;
@@ -48145,7 +48145,7 @@
                         m.Specialization[k] = value;
                         break;
                     }
-                case 5: {
+                case 6: {
                         m.CurrentSpecializationPoint = r.int32();
                         break;
                     }

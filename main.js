@@ -50,12 +50,65 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
+const elementMap = {
+    fire: '🔥火',
+    ice: '❄️冰',
+    thunder: '⚡雷',
+    earth: '🍀森',
+    wind: '💨风',
+    light: '✨光',
+    dark: '🌙暗',
+    physics: '⚔️'
+};
+
 function ask(question) {
     return new Promise(resolve => {
         rl.question(question, answer => {
             resolve(answer);
         });
     });
+}
+
+function getSubProfessionBySkillId(skillId) {
+    switch (skillId) {
+        case 1241:
+            return '射线';
+        case 55302:
+            return '协奏';
+        case 20301:
+        case 21418:
+            return '愈合';
+        case 1518:
+        case 1541:
+            return '惩戒';
+        case 2306:
+            return '狂音';
+        case 120902:
+            return '冰矛';
+        case 1714:
+        case 1734:
+            return '居合';
+        case 44701:
+            return '月刃';
+        case 220112:
+        case 2203622:
+            return '鹰弓';
+        case 1700827:
+            return '狼弓';
+        case 1419:
+            return '空枪';
+        case 1405:
+        case 1418:
+            return '重装';
+        case 2405:
+            return '防盾';
+        case 2406:
+            return '光盾';
+        case 199902:
+            return '岩盾';
+        default:
+            return '';
+    }
 }
 
 // 通用统计类，用于处理伤害或治疗数据
@@ -199,6 +252,7 @@ class UserData {
         this.profession = '未知';
         this.skillUsage = new Map(); // 技能使用情况
         this.fightPoint = 0; // 总评分
+        this.subProfession = '';
     }
 
     /** 添加伤害记录
@@ -216,6 +270,11 @@ class UserData {
         }
         this.skillUsage.get(skillId).addRecord(damage, isCrit, isLucky, hpLessenValue);
         this.skillUsage.get(skillId).realtimeWindow.length = 0;
+
+        const subProfession = getSubProfessionBySkillId(skillId);
+        if (subProfession) {
+            this.setSubProfession(subProfession);
+        }
     }
 
     /** 添加治疗记录
@@ -232,6 +291,11 @@ class UserData {
         }
         this.skillUsage.get(skillId).addRecord(healing, isCrit, isLucky);
         this.skillUsage.get(skillId).realtimeWindow.length = 0;
+
+        const subProfession = getSubProfessionBySkillId(skillId);
+        if (subProfession) {
+            this.setSubProfession(subProfession);
+        }
     }
 
     /** 添加承伤记录
@@ -239,13 +303,6 @@ class UserData {
      * */
     addTakenDamage(damage) {
         this.takenDamage += damage;
-    }
-
-    /** 设置职业
-     * @param {string} profession - 职业名称
-     * */
-    setProfession(profession) {
-        this.profession = profession;
     }
 
     /** 更新实时DPS和HPS 计算过去1秒内的总伤害和治疗 */
@@ -287,7 +344,7 @@ class UserData {
             total_hps: this.getTotalHps(),
             total_healing: { ...this.healingStats.stats },
             taken_damage: this.takenDamage,
-            profession: this.profession,
+            profession: this.profession + (this.subProfession ? `-${this.subProfession}` : ''),
             name: this.name,
             fightPoint: this.fightPoint,
         };
@@ -306,10 +363,12 @@ class UserData {
             const skillConfig = require('./skill_config.json').skills;
             const cfg = skillConfig[skillId];
             const name = cfg ? cfg.name : skillId;
+            const elementype = elementMap[cfg?.element] ?? "";
 
             skills[skillId] = {
                 displayName: name,
                 type: stat.type,
+                elementype: elementype,
                 totalDamage: stat.stats.total,
                 totalCount: stat.count.total,
                 critCount: stat.count.critical,
@@ -321,6 +380,21 @@ class UserData {
             };
         }
         return skills;
+    }
+
+    /** 设置职业
+     * @param {string} profession - 职业名称
+     * */
+    setProfession(profession) {
+        if (profession !== this.profession) this.setSubProfession('');
+        this.profession = profession;
+    }
+
+    /** 设置子职业
+     * @param {string} subProfession - 子职业名称
+     * */
+    setSubProfession(subProfession) {
+        this.subProfession = subProfession;
     }
 
     /** 设置姓名
@@ -432,6 +506,9 @@ class UserDataManager {
                 if (cachedData.profession) {
                     user.setProfession(cachedData.profession);
                 }
+                if (cachedData.fightPoint !== undefined && cachedData.fightPoint !== null) {
+                    user.setFightPoint(cachedData.fightPoint);
+                }
             }
 
             this.users.set(uid, user);
@@ -522,6 +599,14 @@ class UserDataManager {
         if (user.fightPoint != fightPoint) {
             user.setFightPoint(fightPoint);
             this.logger.info(`Found fight point ${fightPoint} for uid ${uid}`);
+
+            // 更新缓存
+            const uidStr = String(uid);
+            if (!this.userCache.has(uidStr)) {
+                this.userCache.set(uidStr, {});
+            }
+            this.userCache.get(uidStr).fightPoint = fightPoint;
+            this.saveUserCacheThrottled();
         }
     }
 
@@ -884,6 +969,118 @@ function getTCPPacket(frameBuffer, ethOffset) {
     return Buffer.from(frameBuffer.subarray(ipPacket.offset, ipPacket.offset + (ipPacket.info.totallen - ipPacket.hdrlen)));
 };
 
+async function processEthPacket(frameBuffer) {
+    var ethPacket = decoders.Ethernet(frameBuffer);
+
+    if (ethPacket.info.type !== PROTOCOL.ETHERNET.IPV4) return;
+
+    const ipPacket = decoders.IPV4(frameBuffer, ethPacket.offset);
+    const srcaddr = ipPacket.info.srcaddr;
+    const dstaddr = ipPacket.info.dstaddr;
+
+    const tcpBuffer = getTCPPacket(frameBuffer, ethPacket.offset);
+    if (tcpBuffer === null) return;
+    const tcpPacket = decoders.TCP(tcpBuffer);
+
+    const buf = Buffer.from(tcpBuffer.subarray(tcpPacket.hdrlen));
+
+    //logger.debug(' from port: ' + tcpPacket.info.srcport + ' to port: ' + tcpPacket.info.dstport);
+    const srcport = tcpPacket.info.srcport;
+    const dstport = tcpPacket.info.dstport;
+    const src_server = srcaddr + ":" + srcport + " -> " + dstaddr + ":" + dstport;
+
+    await tcp_lock.acquire();
+
+    if (current_server !== src_server) {
+        try {
+            //尝试通过小包识别服务器
+            if (buf[4] == 0) {
+                const data = buf.subarray(10);
+                if (data.length) {
+                    const stream = Readable.from(data, { objectMode: false });
+                    let data1;
+                    do {
+                        const len_buf = stream.read(4);
+                        if (!len_buf) break;
+                        data1 = stream.read(len_buf.readUInt32BE() - 4);
+                        const signature = Buffer.from([0x00, 0x63, 0x33, 0x53, 0x42, 0x00]); //c3SB??
+                        if (Buffer.compare(data1.subarray(5, 5 + signature.length), signature)) break;
+                        try {
+                            if (current_server !== src_server) {
+                                current_server = src_server;
+                                clearTcpCache();
+                                tcp_next_seq = tcpPacket.info.seqno + buf.length;
+                                logger.info("Got Scene Server Address: " + src_server);
+                            }
+                        } catch (e) { }
+                    } while (data1 && data1.length);
+                }
+            }
+            //尝试通过登录返回包识别服务器(仍需测试)
+            if (buf.length === 0x62) {
+                // prettier-ignore
+                const signature = Buffer.from([
+                    0x00, 0x00, 0x00, 0x62,
+                    0x00, 0x03,
+                    0x00, 0x00, 0x00, 0x01,
+                    0x00, 0x11, 0x45, 0x14,//seq?
+                    0x00, 0x00, 0x00, 0x00,
+                    0x0a, 0x4e, 0x08, 0x01, 0x22, 0x24
+                ]);
+                if (Buffer.compare(buf.subarray(0, 10), signature.subarray(0, 10)) === 0 &&
+                    Buffer.compare(buf.subarray(14, 14 + 6), signature.subarray(14, 14 + 6)) === 0) {
+                    if (current_server !== src_server) {
+                        current_server = src_server;
+                        clearTcpCache();
+                        tcp_next_seq = tcpPacket.info.seqno + buf.length;
+                        logger.info("Got Scene Server Address by Login Return Packet: " + src_server);
+                    }
+                }
+            }
+        } catch (e) { }
+        tcp_lock.release();
+        return;
+    }
+    // logger.debug(`packet seq ${tcpPacket.info.seqno >>> 0} size ${buf.length} expected next seq ${((tcpPacket.info.seqno >>> 0) + buf.length) >>> 0}`);
+    //这里已经是识别到的服务器的包了
+    if (tcp_next_seq === -1) {
+        logger.error("Unexpected TCP capture error! tcp_next_seq is -1");
+        if (buf.length > 4 && buf.readUInt32BE() < 0x0fffff) {
+            tcp_next_seq = tcpPacket.info.seqno;
+        }
+    }
+    // logger.debug('TCP next seq: ' + tcp_next_seq);
+    if (((tcp_next_seq - tcpPacket.info.seqno) << 0) <= 0 || tcp_next_seq === -1) {
+        tcp_cache.set(tcpPacket.info.seqno, buf);
+    }
+    while (tcp_cache.has(tcp_next_seq)) {
+        const seq = tcp_next_seq;
+        const cachedTcpData = tcp_cache.get(seq);
+        _data = _data.length === 0 ? cachedTcpData : Buffer.concat([_data, cachedTcpData]);
+        tcp_next_seq = (seq + cachedTcpData.length) >>> 0; //uint32
+        tcp_cache.delete(seq);
+        tcp_last_time = Date.now();
+    }
+
+    while (_data.length > 4) {
+        let packetSize = _data.readUInt32BE();
+
+        if (_data.length < packetSize) break;
+
+        if (_data.length >= packetSize) {
+            const packet = _data.subarray(0, packetSize);
+            _data = _data.subarray(packetSize);
+            const processor = new PacketProcessor({ logger, userDataManager });
+            processor.processPacket(packet);
+        } else if (packetSize > 0x0fffff) {
+            logger.error(`无效长度!! ${_data.length},${len},${_data.toString("hex")},${tcp_next_seq}`);
+            process.exit(1);
+            break;
+        }
+    }
+    tcp_lock.release();
+}
+
 // 开始抓包
 function startCapture(deviceIndex) {
     try {
@@ -897,12 +1094,17 @@ function startCapture(deviceIndex) {
         }
 
         selectedDevice = device;
+        const eth_queue = [];
         c = new Cap();
         const filter = 'ip and tcp';
         const bufSize = 10 * 1024 * 1024;
         const buffer = Buffer.alloc(65535);
 
         const linkType = c.open(device.name, filter, bufSize, buffer);
+        if (linkType !== "ETHERNET") {
+            logger.error('WRONG DEVICE!');
+            process.exit(1);
+        }
         c.setMinBytes && c.setMinBytes(0);
 
         logger.info(`开始在设备 ${device.description} 上抓包`);
@@ -917,119 +1119,19 @@ function startCapture(deviceIndex) {
         }
 
         c.on('packet', async function (nbytes, trunc) {
-            if (linkType !== "ETHERNET") return;
-
-            const frameBuffer = Buffer.from(buffer);
-            var ethPacket = decoders.Ethernet(frameBuffer);
-
-            if (ethPacket.info.type !== PROTOCOL.ETHERNET.IPV4) return;
-
-            const ipPacket = decoders.IPV4(frameBuffer, ethPacket.offset);
-            const srcaddr = ipPacket.info.srcaddr;
-            const dstaddr = ipPacket.info.dstaddr;
-
-            const tcpBuffer = getTCPPacket(frameBuffer, ethPacket.offset);
-            if (tcpBuffer === null) return;
-            const tcpPacket = decoders.TCP(tcpBuffer);
-
-            const buf = Buffer.from(tcpBuffer.subarray(tcpPacket.hdrlen));
-
-            //logger.debug(' from port: ' + tcpPacket.info.srcport + ' to port: ' + tcpPacket.info.dstport);
-            const srcport = tcpPacket.info.srcport;
-            const dstport = tcpPacket.info.dstport;
-            const src_server = srcaddr + ":" + srcport + " -> " + dstaddr + ":" + dstport;
-
-            await tcp_lock.acquire();
-
-            if (current_server !== src_server) {
-                try {
-                    //尝试通过小包识别服务器
-                    if (buf[4] == 0) {
-                        const data = buf.subarray(10);
-                        if (data.length) {
-                            const stream = Readable.from(data, { objectMode: false });
-                            let data1;
-                            do {
-                                const len_buf = stream.read(4);
-                                if (!len_buf) break;
-                                data1 = stream.read(len_buf.readUInt32BE() - 4);
-                                const signature = Buffer.from([0x00, 0x63, 0x33, 0x53, 0x42, 0x00]); //c3SB??
-                                if (Buffer.compare(data1.subarray(5, 5 + signature.length), signature)) break;
-                                try {
-                                    if (current_server !== src_server) {
-                                        current_server = src_server;
-                                        clearTcpCache();
-                                        tcp_next_seq = tcpPacket.info.seqno + buf.length;
-                                        logger.info("Got Scene Server Address: " + src_server);
-                                    }
-                                } catch (e) { }
-                            } while (data1 && data1.length);
-                        }
-                    }
-                    //尝试通过登录返回包识别服务器(仍需测试)
-                    if (buf.length === 0x62) {
-                        // prettier-ignore
-                        const signature = Buffer.from([
-                            0x00, 0x00, 0x00, 0x62,
-                            0x00, 0x03,
-                            0x00, 0x00, 0x00, 0x01,
-                            0x00, 0x11, 0x45, 0x14,//seq?
-                            0x00, 0x00, 0x00, 0x00,
-                            0x0a, 0x4e, 0x08, 0x01, 0x22, 0x24
-                        ]);
-                        if (Buffer.compare(buf.subarray(0, 10), signature.subarray(0, 10)) === 0 &&
-                            Buffer.compare(buf.subarray(14, 14 + 6), signature.subarray(14, 14 + 6)) === 0) {
-                            if (current_server !== src_server) {
-                                current_server = src_server;
-                                clearTcpCache();
-                                tcp_next_seq = tcpPacket.info.seqno + buf.length;
-                                logger.info("Got Scene Server Address by Login Return Packet: " + src_server);
-                            }
-                        }
-                    }
-                } catch (e) { }
-                tcp_lock.release();
-                return;
-            }
-            // logger.debug(`packet seq ${tcpPacket.info.seqno >>> 0} size ${buf.length} expected next seq ${((tcpPacket.info.seqno >>> 0) + buf.length) >>> 0}`);
-            //这里已经是识别到的服务器的包了
-            if (tcp_next_seq === -1) {
-                logger.error("Unexpected TCP capture error! tcp_next_seq is -1");
-                if (buf.length > 4 && buf.readUInt32BE() < 0x0fffff) {
-                    tcp_next_seq = tcpPacket.info.seqno;
-                }
-            }
-            // logger.debug('TCP next seq: ' + tcp_next_seq);
-            if (((tcp_next_seq - tcpPacket.info.seqno) << 0) <= 0 || tcp_next_seq === -1) {
-                tcp_cache.set(tcpPacket.info.seqno, buf);
-            }
-            while (tcp_cache.has(tcp_next_seq)) {
-                const seq = tcp_next_seq;
-                const cachedTcpData = tcp_cache.get(seq);
-                _data = _data.length === 0 ? cachedTcpData : Buffer.concat([_data, cachedTcpData]);
-                tcp_next_seq = (seq + cachedTcpData.length) >>> 0; //uint32
-                tcp_cache.delete(seq);
-                tcp_last_time = Date.now();
-            }
-
-            while (_data.length > 4) {
-                let packetSize = _data.readUInt32BE();
-
-                if (_data.length < packetSize) break;
-
-                if (_data.length >= packetSize) {
-                    const packet = _data.subarray(0, packetSize);
-                    _data = _data.subarray(packetSize);
-                    const processor = new PacketProcessor({ logger, userDataManager });
-                    processor.processPacket(packet);
-                } else if (packetSize > 0x0fffff) {
-                    logger.error(`无效长度!! ${_data.length},${len},${_data.toString("hex")},${tcp_next_seq}`);
-                    process.exit(1);
-                    break;
-                }
-            }
-            tcp_lock.release();
+            eth_queue.push(Buffer.from(buffer));
         });
+
+        (async () => {
+            while (true) {
+                if (eth_queue.length) {
+                    const pkt = eth_queue.shift();
+                    processEthPacket(pkt);
+                } else {
+                    await new Promise(r => setTimeout(r, 1));
+                }
+            }
+        })();
 
         return true;
     } catch (error) {
@@ -1316,7 +1418,7 @@ app.whenReady().then(async () => {
             new winston.transports.Console()
         ]
     });
-    userDataManager =  new UserDataManager(logger)
+    userDataManager = new UserDataManager(logger)
     startDataUpdateTimers();
 });
 

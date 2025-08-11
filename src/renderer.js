@@ -3,7 +3,7 @@ const { ipcRenderer } = require('electron');
 // DOM元素引用
 let statusCard, statusIndicator, currentDevice, playerUid, noDataMessage, statsContainer;
 let deviceSelect, refreshDeviceBtn, startCaptureBtn, stopCaptureBtn, clearStatsBtn, showLogBtn, toggleOverlayBtn;
-let totalRealtimeDps, totalMaxDps, totalAvgDps, totalDamage, statsTable;
+let totalRealtimeDps, totalMaxDps, totalAvgDps, totalDamage, statsTable, progressDamageArea, progressHealingArea;
 let totalRealtimeHps, totalMaxHps, totalAvgHps, totalHealing;
 let minimizeBtn, maximizeBtn, closeBtn;
 
@@ -11,6 +11,20 @@ let minimizeBtn, maximizeBtn, closeBtn;
 let isCapturing = false;
 let statsData = {};
 let overlayEnabled = false;
+
+const ProfessionColor = {
+    雷影剑士: '#A330C9',
+    冰魔导师: '#69CCF0',
+    涤罪恶火·战斧: '#000000',
+    青岚骑士: '#C41F3B',
+    森语者: '#00FF96',
+    雷霆一闪·手炮: '#000000',
+    巨刃守护者: '#C79C6E',
+    暗灵祈舞·仪刀·仪仗: '#000000',
+    神射手: '#ABD473',
+    神盾骑士: '#F58CBA',
+    灵魂乐手: '#33937F',
+};
 
 // 初始化函数
 function initializeElements() {
@@ -44,6 +58,8 @@ function initializeElements() {
     totalAvgDps = document.getElementById('totalAvgDps');
     totalDamage = document.getElementById('totalDamage');
     statsTable = document.getElementById('statsTable');
+    progressDamageArea = document.getElementById('progressDamageArea');
+    progressHealingArea = document.getElementById('progressHealingArea');
 
     totalRealtimeHps = document.getElementById('totalRealtimeHps');
     totalMaxHps = document.getElementById('totalMaxHps');
@@ -225,7 +241,7 @@ function formatPercentage(num) {
 function updateStatsDisplay() {
     const userIds = Object.keys(statsData);
 
-    if (userIds.length === 0) {
+    if (userIds.length === 0 && !isCapturing) {
         noDataMessage.style.display = 'block';
         statsContainer.style.display = 'none';
         return;
@@ -252,14 +268,16 @@ function updateStatsDisplay() {
         totalMaxDpsValue = Math.max(totalMaxDpsValue, userData.realtime_dps_max || 0);
         totalAvgDpsValue += userData.total_dps || 0;
         totalDamageValue += userData.total_damage.total || 0;
-        playerCount++;
 
         totalRealtimeHpsValue += userData.realtime_hps || 0;
         totalMaxHpsValue = Math.max(totalMaxHpsValue, userData.realtime_hps_max || 0);
         totalAvgHpsValue += userData.total_hps || 0;
         totalHealingValue += userData.total_healing.total || 0;
 
+        playerCount++;
     }
+
+
 
     if (playerCount > 0) {
         totalAvgDpsValue = totalAvgDpsValue / playerCount;
@@ -267,21 +285,89 @@ function updateStatsDisplay() {
     }
 
     // 更新概览卡片
-    totalRealtimeDps.textContent = formatNumber(totalRealtimeDpsValue);
-    totalMaxDps.textContent = formatNumber(totalMaxDpsValue);
-    totalAvgDps.textContent = formatNumber(totalAvgDpsValue);
-    totalDamage.textContent = formatNumber(totalDamageValue);
+    // totalRealtimeDps.textContent = formatNumber(totalRealtimeDpsValue);
+    // totalMaxDps.textContent = formatNumber(totalMaxDpsValue);
+    // totalAvgDps.textContent = formatNumber(totalAvgDpsValue);
+    // totalDamage.textContent = formatNumber(totalDamageValue);
 
-    totalRealtimeHps.textContent = formatNumber(totalRealtimeHpsValue);
-    totalMaxHps.textContent = formatNumber(totalMaxHpsValue);
-    totalAvgHps.textContent = formatNumber(totalAvgHpsValue);
-    totalHealing.textContent = formatNumber(totalHealingValue);
+    // totalRealtimeHps.textContent = formatNumber(totalRealtimeHpsValue);
+    // totalMaxHps.textContent = formatNumber(totalMaxHpsValue);
+    // totalAvgHps.textContent = formatNumber(totalAvgHpsValue);
+    // totalHealing.textContent = formatNumber(totalHealingValue);
 
     // 更新表格
     updateStatsTable();
 
+    // 更新进度条区域
+    updateProgressArea();
+
     // 更新图表进度条
-    updateMetricCharts();
+    // updateMetricCharts();
+}
+
+// 更新进度条区域
+function updateProgressArea() {
+    const userIds = Object.keys(statsData).sort();
+    let max_total_damage = 0
+    let max_total_healing = 0
+    const damageUserDatas = []
+    const healingUserDatas = []
+    for (const uid of userIds) {
+        const userData = statsData[uid];
+        const damage = userData.total_damage;
+        const healing = userData.total_healing;
+        max_total_damage = Math.max(max_total_damage, damage.total)
+        max_total_healing = Math.max(max_total_healing, healing.total)
+        if (damage.total) {
+            damageUserDatas.push({
+                ...userData,
+                uid
+            })
+        }
+        if (healing.total) {
+            healingUserDatas.push({
+                ...userData,
+                uid
+            })
+        }
+    }
+
+    const damageAllUserData = damageUserDatas.sort((a, b) => (b.total_damage.total - a.total_damage.total))
+
+    const healingAllUserData = healingUserDatas.sort((a, b) => (b.total_healing.total - a.total_healing.total))
+
+    let damageDataShow = ''
+    let healingDataShow = ''
+
+    for (const userData of damageAllUserData) {
+        const damage = userData.total_damage;
+        const totalDamagePercentProgress = (parseFloat(damage.total || 0) / max_total_damage) * 100;
+        damageDataShow += `<div class="w-full flex items-center gap-2" style="margin-bottom: 5px">
+            <div class="h-[20px]" style="width: ${Math.min(totalDamagePercentProgress, 100)}%;background: ${ProfessionColor[userData.profession.split('-')[0]] ? ProfessionColor[userData.profession.split('-')[0]] : '#000000'};color: white;">
+                ${userData.name ? `${userData.name}(${userData.uid})` : userData.uid}(${userData.profession})(GS: ${userData.fightPoint || 0})
+            </div>
+            <div>${formatNumber(damage.total)}(${formatNumber(userData.total_dps)})</div>
+        </div>`
+    }
+
+    for (const userData of healingAllUserData) {
+        const healing = userData.total_healing;
+        const totalHealingPercentProgress = (parseFloat(healing.total || 0) / max_total_healing) * 100;
+        healingDataShow += `<div class="w-full flex items-center gap-2" style="margin-bottom: 5px">
+            <div class="h-[20px]" style="width: ${Math.min(totalHealingPercentProgress, 100)}%;background: ${ProfessionColor[userData.profession.split('-')[0]] ? ProfessionColor[userData.profession.split('-')[0]] : '#000000'};color: white;">
+                ${userData.name ? `${userData.name}(${userData.uid})` : userData.uid}(${userData.profession})(GS: ${userData.fightPoint || 0})
+            </div>
+            <div>${formatNumber(healing.total)}(${formatNumber(userData.total_hps)})</div>
+        </div>`
+    }
+
+    if (progressDamageArea) {
+        progressDamageArea.innerHTML = damageDataShow
+        progressHealingArea.innerHTML = healingDataShow
+        // progressArea.appendChild(dataShow)
+
+    }
+
 }
 
 // 更新统计表格
@@ -297,13 +383,14 @@ function updateStatsTable() {
         const healing = userData.total_healing;
         const count = userData.total_count;
 
-        // 计算暴击率
-        const critRate = count.total > 0 ? count.critical / count.total : 0;
+        if (damage.total || healing.total) {
+            // 计算暴击率
+            const critRate = count.total > 0 ? count.critical / count.total : 0;
 
-        const row = document.createElement('tr');
-        row.className = 'stats-update';
+            const row = document.createElement('tr');
+            row.className = 'stats-update';
 
-        row.innerHTML = `
+            row.innerHTML = `
             <td>${userData.name ? `${userData.name}(${uid})` : uid}(${userData.profession})${playerUid.textContent == uid ? '(你)' : ''}</td>
             <td class="number">${formatNumber(userData.realtime_dps)}/${formatNumber(userData.realtime_hps)}</td>
             <td class="number">${formatNumber(userData.realtime_dps_max)}/${formatNumber(userData.realtime_hps_max)}</td>
@@ -317,12 +404,13 @@ function updateStatsTable() {
             <td class="number">${formatPercentage(critRate)}</td>
         `;
 
-        tbody.appendChild(row);
+            tbody.appendChild(row);
 
-        // 移除动画类
-        setTimeout(() => {
-            row.classList.remove('stats-update');
-        }, 500);
+            // 移除动画类
+            setTimeout(() => {
+                row.classList.remove('stats-update');
+            }, 500);
+        }
     }
 }
 

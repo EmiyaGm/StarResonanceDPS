@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>星痕共鸣 DPS 统计工具</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="output.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="app">
         <!-- 顶部导航栏 -->
@@ -18,7 +21,7 @@
                     <span class="brand-subtitle">实时伤害统计分析工具</span>
                 </div>
             </div>
-            
+
             <div class="navbar-center">
                 <div class="status-card" id="statusCard">
                     <div class="status-indicator" id="statusIndicator">
@@ -121,7 +124,7 @@
                 <!-- 统计数据容器 -->
                 <div class="stats-container" id="statsContainer" style="display: none;">
                     <!-- 概览仪表板 -->
-                    <div class="dashboard">
+                    <!-- <div class="dashboard">
                         <div class="metric-card primary">
                             <div class="metric-header">
                                 <div class="metric-icon">⚡</div>
@@ -234,7 +237,7 @@
                             </div>
                         </div>
                         
-                    </div>
+                    </div> -->
 
                     <!-- 详细数据表格 -->
                     <div class="data-table-container">
@@ -247,7 +250,18 @@
                                 </button>
                             </div>
                         </div>
-                        
+
+                        <div class="progress-wrapper">
+                            <div class="flex items-center justify-between">
+                                <div style="width: 50%;text-align: center;font-size: 28px;">伤害</div>
+                                <div style="width: 50%;text-align: center;font-size: 28px;">治疗</div>
+                            </div>
+                            <div class="flex items-start justify-between">
+                                <div id="progressDamageArea" style="padding: 10px !important;width: 50%;"></div>
+                                <div id="progressHealingArea" style="padding: 10px !important;width: 50%;"></div>
+                            </div>
+                        </div>
+
                         <div class="table-wrapper">
                             <table class="data-table" id="statsTable">
                                 <thead>
@@ -296,4 +310,5 @@
 
     <script src="renderer.js"></script>
 </body>
+
 </html>
