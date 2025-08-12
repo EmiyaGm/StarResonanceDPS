@@ -5,7 +5,8 @@ let statusCard, statusIndicator, currentDevice, playerUid, noDataMessage, statsC
 let deviceSelect, refreshDeviceBtn, startCaptureBtn, stopCaptureBtn, clearStatsBtn, showLogBtn, toggleOverlayBtn;
 let totalRealtimeDps, totalMaxDps, totalAvgDps, totalDamage, statsTable, progressDamageArea, progressHealingArea;
 let totalRealtimeHps, totalMaxHps, totalAvgHps, totalHealing;
-let minimizeBtn, maximizeBtn, closeBtn, typeCheckBox, pinBtn;
+let minimizeBtn, maximizeBtn, closeBtn, typeCheckBox, pinBtn, hideDeviceBtn, showDeviceBtn;
+let controlArea;
 
 // 全局状态
 let isCapturing = false;
@@ -39,6 +40,8 @@ function initializeElements() {
     noDataMessage = document.getElementById('noDataMessage');
     statsContainer = document.getElementById('statsContainer');
 
+    controlArea = document.getElementById('controlArea')
+
     // 控件
     deviceSelect = document.getElementById('deviceSelect');
     refreshDeviceBtn = document.getElementById('refreshDeviceBtn');
@@ -46,6 +49,8 @@ function initializeElements() {
     stopCaptureBtn = document.getElementById('stopCaptureBtn');
     clearStatsBtn = document.getElementById('clearStatsBtn');
     typeCheckBox = document.getElementById('typeCheckBox');
+    hideDeviceBtn = document.getElementById('hideDeviceBtn')
+    showDeviceBtn = document.getElementById('showDeviceBtn')
     // pinBtn = document.getElementById('pinBtn');
     // showLogBtn = document.getElementById('showLogBtn');
     // toggleOverlayBtn = document.getElementById('toggleOverlayBtn');
@@ -89,6 +94,18 @@ function bindEventListeners() {
     //     updatePinButton();
     // });
 
+    // 隐藏设备选择按钮
+    hideDeviceBtn.addEventListener('click', () => {
+        controlArea.style.display = 'none'
+        showDeviceBtn.style.display = 'block'
+    })
+
+    // 显示设备选择按钮
+    showDeviceBtn.addEventListener('click', () => {
+        controlArea.style.display = 'block'
+        showDeviceBtn.style.display = 'none'
+    })
+
     // 刷新设备按钮
     refreshDeviceBtn.addEventListener('click', async () => {
         await loadDeviceList();
@@ -102,6 +119,9 @@ function bindEventListeners() {
                 const success = await ipcRenderer.invoke('start-capture', selectedIndex);
                 if (!success) {
                     console.error('启动抓包失败，请检查设备和权限');
+                } else {
+                    controlArea.style.display = 'none'
+                    showDeviceBtn.style.display = 'block'
                 }
             } catch (error) {
                 console.error('启动抓包失败:', error);
@@ -219,6 +239,7 @@ function updateCaptureStatus(capturing, deviceName = null) {
         statusIndicator.querySelector('.status-text').textContent = '正在抓包';
         startCaptureBtn.disabled = true;
         stopCaptureBtn.disabled = false;
+        hideDeviceBtn.disabled = false;
         if (deviceSelect) deviceSelect.disabled = true;
         if (refreshDeviceBtn) refreshDeviceBtn.disabled = true;
 
@@ -230,6 +251,7 @@ function updateCaptureStatus(capturing, deviceName = null) {
         statusIndicator.querySelector('.status-text').textContent = '待连接';
         startCaptureBtn.disabled = !deviceSelect || deviceSelect.value === '';
         stopCaptureBtn.disabled = true;
+        hideDeviceBtn.disabled = true;
         if (deviceSelect) deviceSelect.disabled = false;
         if (refreshDeviceBtn) refreshDeviceBtn.disabled = false;
 
@@ -271,8 +293,6 @@ function updateStatsDisplay() {
 
     noDataMessage.style.display = 'none';
     statsContainer.style.display = 'block';
-
-    console.log(typeCheckBox.checked)
 
     if (typeCheckBox) {
         if (typeCheckBox.checked) {
@@ -378,29 +398,31 @@ function updateProgressArea() {
     let damageDataShow = ''
     let healingDataShow = ''
 
-    for (const userData of damageAllUserData) {
+    for (let i = 0; i < damageAllUserData.length; i++) {
+        const userData = damageAllUserData[i]
         const damage = userData.total_damage;
         const totalDamagePercentProgress = (parseFloat(damage.total || 0) / max_total_damage) * 100;
         damageDataShow += `<div class="w-full" style="margin-bottom: 5px;background: rgba(0, 0, 0, 0.4);color: white;position: relative">
-            <div class="w-full flex items-center h-[20px]" style="position: absolute;top: 0;left: 0;justify-content: space-between">
-                <div> ${userData.name ? `${userData.name}(${userData.uid})` : userData.uid}(${userData.profession})(GS: ${userData.fightPoint || 0})</div>
+            <div class="w-full flex items-center h-[30px]" style="position: absolute;top: 0;left: 0;justify-content: space-between;padding: 0px 5px">
+                <div>${i + 1}. ${userData.name ? `${userData.name}(${userData.uid})` : userData.uid}(${userData.profession})(GS: ${userData.fightPoint || 0})</div>
                 <div>${formatNumber(damage.total)}(${formatNumber(userData.total_dps)})</div>
             </div>
-            <div class="h-[20px]" style="width: ${Math.min(totalDamagePercentProgress, 100)}%;background: ${ProfessionColor[userData.profession.split('-')[0]] ? ProfessionColor[userData.profession.split('-')[0]] : '#000000'};">
+            <div class="h-[30px]" style="width: ${Math.min(totalDamagePercentProgress, 100)}%;background: ${ProfessionColor[userData.profession.split('-')[0]] ? ProfessionColor[userData.profession.split('-')[0]] : '#000000'};">
                
             </div>
         </div>`
     }
 
-    for (const userData of healingAllUserData) {
+    for (let i = 0; i < healingAllUserData.length; i++ ) {
+        const userData = healingAllUserData[i]
         const healing = userData.total_healing;
         const totalHealingPercentProgress = (parseFloat(healing.total || 0) / max_total_healing) * 100;
         healingDataShow += `<div class="w-full" style="margin-bottom: 5px;background: rgba(0, 0, 0, 0.4);color: white;position: relative">
-            <div class="w-full flex items-center h-[20px]" style="position: absolute;top: 0;left: 0;justify-content: space-between">
-                <div>${userData.name ? `${userData.name}(${userData.uid})` : userData.uid}(${userData.profession})(GS: ${userData.fightPoint || 0})</div>
+            <div class="w-full flex items-center h-[30px]" style="position: absolute;top: 0;left: 0;justify-content: space-between">
+                <div style="margin-left: 5px">${i + 1}. ${userData.name ? `${userData.name}(${userData.uid})` : userData.uid}(${userData.profession})(GS: ${userData.fightPoint || 0})</div>
                 <div>${formatNumber(healing.total)}(${formatNumber(userData.total_hps)})</div>
             </div>
-            <div class="h-[20px]" style="width: ${Math.min(totalHealingPercentProgress, 100)}%;background: ${ProfessionColor[userData.profession.split('-')[0]] ? ProfessionColor[userData.profession.split('-')[0]] : '#000000'};color: white;">
+            <div class="h-[30px]" style="width: ${Math.min(totalHealingPercentProgress, 100)}%;background: ${ProfessionColor[userData.profession.split('-')[0]] ? ProfessionColor[userData.profession.split('-')[0]] : '#000000'};color: white;">
                 
             </div>
         </div>`

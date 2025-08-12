@@ -754,6 +754,21 @@
       }
     }
   }
+  .\!ml-2 {
+    margin-left: calc(var(--spacing) * 2) !important;
+  }
+  .\!ml-4 {
+    margin-left: calc(var(--spacing) * 4) !important;
+  }
+  .ml-2 {
+    margin-left: calc(var(--spacing) * 2);
+  }
+  .ml-4 {
+    margin-left: calc(var(--spacing) * 4);
+  }
+  .ml-\[5px\] {
+    margin-left: 5px;
+  }
   .status {
     display: inline-block;
     aspect-ratio: 1 / 1;
@@ -803,6 +818,9 @@
   }
   .h-\[20px\] {
     height: 20px;
+  }
+  .h-\[30px\] {
+    height: 30px;
   }
   .\!min-h-0 {
     min-height: calc(var(--spacing) * 0) !important;

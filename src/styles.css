@@ -98,7 +98,6 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: white;
 }
 
 /* Navbar */
@@ -106,7 +105,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 var(--space-xl);
     background: var(--bg-primary);
     border-bottom: 1px solid var(--gray-200);
     box-shadow: var(--shadow-sm);
@@ -298,8 +296,6 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: var(--space-xl);
-    gap: var(--space-xl);
     overflow: hidden;
 }
 
@@ -310,9 +306,6 @@ body {
 
 .control-card {
     background: var(--bg-primary);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--gray-200);
     overflow: hidden;
 }
 
@@ -524,9 +517,6 @@ body {
     width: 100%;
     text-align: center;
     background: var(--bg-primary);
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--gray-200);
-    box-shadow: var(--shadow-sm);
     margin: 0;
     padding: var(--space-2xl);
     box-sizing: border-box;
@@ -715,10 +705,6 @@ body {
 /* Data Table */
 .data-table-container {
     flex: 1;
-    background: var(--bg-primary);
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--gray-200);
-    box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -845,10 +831,6 @@ body {
         padding: var(--space-md) var(--space-lg);
     }
     
-    .main-container {
-        padding: var(--space-lg);
-    }
-    
     .dashboard {
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: var(--space-md);
@@ -912,11 +894,6 @@ body {
         font-size: 18px;
     }
     
-    .main-container {
-        padding: var(--space-md);
-        gap: var(--space-md);
-    }
-    
     .table-wrapper {
         overflow-x: auto;
     }
@@ -962,10 +939,6 @@ body {
 @media print {
     .navbar, .log-panel, .control-section {
         display: none;
-    }
-    
-    .main-container {
-        padding: 0;
     }
     
     .stats-container {
