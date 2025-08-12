@@ -729,10 +729,16 @@ const tcp_lock = new Lock();
 
 // 创建主窗口
 function createWindow() {
+    if (mainWindow) {
+        mainWindow.focus()
+        return;
+    }
     mainWindow = new BrowserWindow({
-        width: 1200,
-        height: 800,
+        width: 600,
+        height: 400,
         frame: false, // 去掉标题栏
+        alwaysOnTop: true,
+        transparent: true,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false
@@ -744,6 +750,14 @@ function createWindow() {
     });
 
     mainWindow.loadFile('src/index.html');
+
+    // 设置初始位置到屏幕左下角
+    const { screen } = require('electron');
+    const primaryDisplay = screen.getPrimaryDisplay();
+    const { width, height } = primaryDisplay.workAreaSize;
+    mainWindow.setPosition(width - 600, height - 450);
+    mainWindow.setAlwaysOnTop(true, "screen-saver")
+    mainWindow.setVisibleOnAllWorkspaces(true)
 
     // 页面加载完成后发送缓存的日志
     mainWindow.webContents.once('did-finish-load', () => {
@@ -1357,6 +1371,13 @@ ipcMain.handle('overlay-set-always-on-top', (event, alwaysOnTop) => {
     if (overlayWindow) {
         overlayWindow.setAlwaysOnTop(alwaysOnTop, "screen-saver");
         overlayWindow.setVisibleOnAllWorkspaces(alwaysOnTop)
+    }
+});
+
+ipcMain.handle('main-set-always-on-top', (event, alwaysOnTop) => {
+    if (mainWindow) {
+        mainWindow.setAlwaysOnTop(alwaysOnTop, "screen-saver");
+        mainWindow.setVisibleOnAllWorkspaces(alwaysOnTop)
     }
 });
 

@@ -5,12 +5,13 @@ let statusCard, statusIndicator, currentDevice, playerUid, noDataMessage, statsC
 let deviceSelect, refreshDeviceBtn, startCaptureBtn, stopCaptureBtn, clearStatsBtn, showLogBtn, toggleOverlayBtn;
 let totalRealtimeDps, totalMaxDps, totalAvgDps, totalDamage, statsTable, progressDamageArea, progressHealingArea;
 let totalRealtimeHps, totalMaxHps, totalAvgHps, totalHealing;
-let minimizeBtn, maximizeBtn, closeBtn;
+let minimizeBtn, maximizeBtn, closeBtn, typeCheckBox, pinBtn;
 
 // 全局状态
 let isCapturing = false;
 let statsData = {};
 let overlayEnabled = false;
+let isPinned = true
 
 const ProfessionColor = {
     雷影剑士: '#A330C9',
@@ -32,7 +33,7 @@ function initializeElements() {
     statusCard = document.getElementById('statusCard');
     statusIndicator = document.getElementById('statusIndicator');
     currentDevice = document.getElementById('currentDevice');
-    playerUid = document.getElementById('playerUid');
+    // playerUid = document.getElementById('playerUid');
 
     // 主要区域
     noDataMessage = document.getElementById('noDataMessage');
@@ -44,8 +45,10 @@ function initializeElements() {
     startCaptureBtn = document.getElementById('startCaptureBtn');
     stopCaptureBtn = document.getElementById('stopCaptureBtn');
     clearStatsBtn = document.getElementById('clearStatsBtn');
-    showLogBtn = document.getElementById('showLogBtn');
-    toggleOverlayBtn = document.getElementById('toggleOverlayBtn');
+    typeCheckBox = document.getElementById('typeCheckBox');
+    // pinBtn = document.getElementById('pinBtn');
+    // showLogBtn = document.getElementById('showLogBtn');
+    // toggleOverlayBtn = document.getElementById('toggleOverlayBtn');
 
     // 窗口控制按钮
     minimizeBtn = document.getElementById('minimizeBtn');
@@ -57,7 +60,7 @@ function initializeElements() {
     totalMaxDps = document.getElementById('totalMaxDps');
     totalAvgDps = document.getElementById('totalAvgDps');
     totalDamage = document.getElementById('totalDamage');
-    statsTable = document.getElementById('statsTable');
+    // statsTable = document.getElementById('statsTable');
     progressDamageArea = document.getElementById('progressDamageArea');
     progressHealingArea = document.getElementById('progressHealingArea');
 
@@ -79,6 +82,12 @@ function bindEventListeners() {
             startCaptureBtn.disabled = true;
         }
     });
+
+    // pinBtn.addEventListener('click', () => {
+    //     isPinned = !isPinned;
+    //     ipcRenderer.invoke('main-set-always-on-top', isPinned);
+    //     updatePinButton();
+    // });
 
     // 刷新设备按钮
     refreshDeviceBtn.addEventListener('click', async () => {
@@ -122,23 +131,23 @@ function bindEventListeners() {
     });
 
     // 显示日志窗口
-    showLogBtn.addEventListener('click', async () => {
-        try {
-            await ipcRenderer.invoke('show-log-window');
-        } catch (error) {
-            console.error('打开日志窗口失败:', error);
-        }
-    });
+    // showLogBtn.addEventListener('click', async () => {
+    //     try {
+    //         await ipcRenderer.invoke('show-log-window');
+    //     } catch (error) {
+    //         console.error('打开日志窗口失败:', error);
+    //     }
+    // });
 
     // 切换悬浮窗
-    toggleOverlayBtn.addEventListener('click', async () => {
-        try {
-            const enabled = await ipcRenderer.invoke('toggle-overlay');
-            updateOverlayButton(enabled);
-        } catch (error) {
-            console.error('切换悬浮窗失败:', error);
-        }
-    });
+    // toggleOverlayBtn.addEventListener('click', async () => {
+    //     try {
+    //         const enabled = await ipcRenderer.invoke('toggle-overlay');
+    //         updateOverlayButton(enabled);
+    //     } catch (error) {
+    //         console.error('切换悬浮窗失败:', error);
+    //     }
+    // });
 
     // 窗口控制按钮事件
     if (minimizeBtn) {
@@ -172,9 +181,9 @@ function bindIpcListeners() {
     });
 
     // 接收玩家UID更新
-    ipcRenderer.on('player-uid-updated', (event, uid) => {
-        playerUid.textContent = uid || '未获取';
-    });
+    // ipcRenderer.on('player-uid-updated', (event, uid) => {
+    //     playerUid.textContent = uid || '未获取';
+    // });
 
     // 接收抓包状态变化
     ipcRenderer.on('capture-status-changed', (event, status) => {
@@ -188,12 +197,25 @@ function bindIpcListeners() {
     });
 }
 
+function updatePinButton() {
+    if (pinBtn) {
+        const pinIcon = pinBtn.querySelector('span');
+        if (isPinned) {
+            pinIcon.textContent = '📌';
+            pinBtn.title = '点击取消置顶';
+        } else {
+            pinIcon.textContent = '📍';
+            pinBtn.title = '点击置顶显示';
+        }
+    }
+}
+
 // 更新抓包状态
 function updateCaptureStatus(capturing, deviceName = null) {
     isCapturing = capturing;
 
     if (capturing) {
-        statusCard.className = 'status-card capturing';
+        statusCard.className = 'status-card capturing flex items-center justify-center';
         statusIndicator.querySelector('.status-text').textContent = '正在抓包';
         startCaptureBtn.disabled = true;
         stopCaptureBtn.disabled = false;
@@ -204,7 +226,7 @@ function updateCaptureStatus(capturing, deviceName = null) {
             currentDevice.textContent = deviceName;
         }
     } else {
-        statusCard.className = 'status-card';
+        statusCard.className = 'status-card flex items-center justify-center';
         statusIndicator.querySelector('.status-text').textContent = '待连接';
         startCaptureBtn.disabled = !deviceSelect || deviceSelect.value === '';
         stopCaptureBtn.disabled = true;
@@ -249,6 +271,23 @@ function updateStatsDisplay() {
 
     noDataMessage.style.display = 'none';
     statsContainer.style.display = 'block';
+
+    console.log(typeCheckBox.checked)
+
+    if (typeCheckBox) {
+        if (typeCheckBox.checked) {
+            // 显示治疗区域
+            progressDamageArea.style.display = 'none'
+            progressHealingArea.style.display = 'block'
+        } else {
+            // 显示伤害区域
+            progressDamageArea.style.display = 'block'
+            progressHealingArea.style.display = 'none'
+        }
+    } else {
+        progressDamageArea.style.display = 'none'
+        progressHealingArea.style.display = 'none'
+    }
 
     // 计算总体统计
     let totalRealtimeDpsValue = 0;
@@ -296,7 +335,7 @@ function updateStatsDisplay() {
     // totalHealing.textContent = formatNumber(totalHealingValue);
 
     // 更新表格
-    updateStatsTable();
+    // updateStatsTable();
 
     // 更新进度条区域
     updateProgressArea();
@@ -342,22 +381,28 @@ function updateProgressArea() {
     for (const userData of damageAllUserData) {
         const damage = userData.total_damage;
         const totalDamagePercentProgress = (parseFloat(damage.total || 0) / max_total_damage) * 100;
-        damageDataShow += `<div class="w-full flex items-center gap-2" style="margin-bottom: 5px">
-            <div class="h-[20px]" style="width: ${Math.min(totalDamagePercentProgress, 100)}%;background: ${ProfessionColor[userData.profession.split('-')[0]] ? ProfessionColor[userData.profession.split('-')[0]] : '#000000'};color: white;">
-                ${userData.name ? `${userData.name}(${userData.uid})` : userData.uid}(${userData.profession})(GS: ${userData.fightPoint || 0})
+        damageDataShow += `<div class="w-full" style="margin-bottom: 5px;background: rgba(0, 0, 0, 0.4);color: white;position: relative">
+            <div class="w-full flex items-center h-[20px]" style="position: absolute;top: 0;left: 0;justify-content: space-between">
+                <div> ${userData.name ? `${userData.name}(${userData.uid})` : userData.uid}(${userData.profession})(GS: ${userData.fightPoint || 0})</div>
+                <div>${formatNumber(damage.total)}(${formatNumber(userData.total_dps)})</div>
             </div>
-            <div>${formatNumber(damage.total)}(${formatNumber(userData.total_dps)})</div>
+            <div class="h-[20px]" style="width: ${Math.min(totalDamagePercentProgress, 100)}%;background: ${ProfessionColor[userData.profession.split('-')[0]] ? ProfessionColor[userData.profession.split('-')[0]] : '#000000'};">
+               
+            </div>
         </div>`
     }
 
     for (const userData of healingAllUserData) {
         const healing = userData.total_healing;
         const totalHealingPercentProgress = (parseFloat(healing.total || 0) / max_total_healing) * 100;
-        healingDataShow += `<div class="w-full flex items-center gap-2" style="margin-bottom: 5px">
-            <div class="h-[20px]" style="width: ${Math.min(totalHealingPercentProgress, 100)}%;background: ${ProfessionColor[userData.profession.split('-')[0]] ? ProfessionColor[userData.profession.split('-')[0]] : '#000000'};color: white;">
-                ${userData.name ? `${userData.name}(${userData.uid})` : userData.uid}(${userData.profession})(GS: ${userData.fightPoint || 0})
+        healingDataShow += `<div class="w-full" style="margin-bottom: 5px;background: rgba(0, 0, 0, 0.4);color: white;position: relative">
+            <div class="w-full flex items-center h-[20px]" style="position: absolute;top: 0;left: 0;justify-content: space-between">
+                <div>${userData.name ? `${userData.name}(${userData.uid})` : userData.uid}(${userData.profession})(GS: ${userData.fightPoint || 0})</div>
+                <div>${formatNumber(healing.total)}(${formatNumber(userData.total_hps)})</div>
             </div>
-            <div>${formatNumber(healing.total)}(${formatNumber(userData.total_hps)})</div>
+            <div class="h-[20px]" style="width: ${Math.min(totalHealingPercentProgress, 100)}%;background: ${ProfessionColor[userData.profession.split('-')[0]] ? ProfessionColor[userData.profession.split('-')[0]] : '#000000'};color: white;">
+                
+            </div>
         </div>`
     }
 
@@ -580,9 +625,9 @@ async function initializeStatus() {
         const status = await ipcRenderer.invoke('get-capture-status');
         updateCaptureStatus(status.isCapturing, status.selectedDevice);
 
-        if (status.userUid) {
-            playerUid.textContent = status.userUid;
-        }
+        // if (status.userUid) {
+        //     playerUid.textContent = status.userUid;
+        // }
 
         console.info('应用程序已启动');
 
@@ -658,6 +703,7 @@ async function initialize() {
     bindEventListeners();
     bindIpcListeners();
     bindKeyboardShortcuts();
+    updatePinButton();
     addTooltips();
     await initializeStatus();
 

@@ -70,6 +70,10 @@
     --transition-slow: 350ms ease-in-out;
 }
 
+html {
+    background: transparent !important;
+}
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -82,9 +86,11 @@ body {
     font-size: 14px;
     line-height: 1.5;
     color: var(--text-primary);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     overflow: hidden;
+    background: transparent;
+    opacity: 0.6;
+    transition: opacity var(--transition-normal);
 }
 
 /* App Layout */
@@ -92,27 +98,28 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: var(--bg-secondary);
+    background: white;
 }
 
 /* Navbar */
-.navbar {
+.navbar-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--space-lg) var(--space-xl);
+    padding: 0 var(--space-xl);
     background: var(--bg-primary);
     border-bottom: 1px solid var(--gray-200);
     box-shadow: var(--shadow-sm);
     z-index: 10;
     -webkit-app-region: drag; /* 让导航栏可以拖拽移动窗口 */
     user-select: none; /* 防止文本选中 */
+    min-height: 0 !important;
 }
 
 /* 让按钮和交互元素不响应拖拽 */
-.navbar button,
-.navbar input,
-.navbar select,
+.navbar-content button,
+.navbar-content input,
+.navbar-content select,
 .status-card,
 .window-controls {
     -webkit-app-region: no-drag;
@@ -160,12 +167,10 @@ body {
 .status-card {
     display: flex;
     align-items: center;
-    gap: var(--space-lg);
-    padding: var(--space-md) var(--space-lg);
+    /* padding: var(--space-md) var(--space-lg); */
     background: var(--bg-secondary);
     border-radius: var(--radius-lg);
     border: 1px solid var(--gray-200);
-    min-width: 300px;
 }
 
 .status-indicator {
@@ -331,9 +336,9 @@ body {
 
 .control-row {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: space-between;
     gap: var(--space-xl);
-    flex-wrap: wrap;
 }
 
 .control-group {
@@ -840,10 +845,6 @@ body {
         padding: var(--space-md) var(--space-lg);
     }
     
-    .status-card {
-        min-width: 250px;
-    }
-    
     .main-container {
         padding: var(--space-lg);
     }
@@ -853,11 +854,11 @@ body {
         gap: var(--space-md);
     }
     
-    .control-row {
+    /* .control-row {
         flex-direction: column;
         align-items: stretch;
         gap: var(--space-lg);
-    }
+    } */
     
     .control-group {
         min-width: auto;
@@ -909,13 +910,6 @@ body {
     
     .brand-text h1 {
         font-size: 18px;
-    }
-    
-    .status-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: var(--space-sm);
-        min-width: 200px;
     }
     
     .main-container {
