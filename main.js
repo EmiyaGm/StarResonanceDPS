@@ -743,7 +743,6 @@ function createWindow() {
             nodeIntegration: true,
             contextIsolation: false
         },
-        skipTaskbar: true,
         titleBarStyle: 'hidden', // 隐藏标题栏
         trafficLightPosition: { x: 15, y: 15 } // macOS 窗口控制按钮位置
     });

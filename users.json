@@ -49,6 +49,11 @@
     "fightPoint": 19498,
     "profession": "神射手"
   },
+  "11143": {
+    "name": "泪滴尬尬",
+    "fightPoint": 19657,
+    "profession": "青岚骑士"
+  },
   "12484": {
     "name": "左左子",
     "fightPoint": 13742,
@@ -94,10 +99,20 @@
     "fightPoint": 17478,
     "profession": "灵魂乐手"
   },
+  "18804": {
+    "name": "圣艾琳娜",
+    "fightPoint": 18627,
+    "profession": "冰魔导师"
+  },
   "18985": {
     "name": "旺仔",
     "fightPoint": 21476,
     "profession": "冰魔导师"
+  },
+  "20611": {
+    "name": "文艺坯子",
+    "fightPoint": 19215,
+    "profession": "青岚骑士"
   },
   "20959": {
     "name": "星",
@@ -179,6 +194,16 @@
     "fightPoint": 18485,
     "profession": "冰魔导师"
   },
+  "35449": {
+    "name": "雾枝",
+    "fightPoint": 16799,
+    "profession": "神射手"
+  },
+  "35613": {
+    "name": "可达鸭",
+    "fightPoint": 16435,
+    "profession": "神盾骑士"
+  },
   "37520": {
     "name": "抖音冰糕oo",
     "fightPoint": 18015,
@@ -234,6 +259,11 @@
     "fightPoint": 16813,
     "profession": "神盾骑士"
   },
+  "55969": {
+    "name": "索拉里斯的阿漂",
+    "fightPoint": 17309,
+    "profession": "青岚骑士"
+  },
   "56019": {
     "name": "Arbrity",
     "fightPoint": 17417,
@@ -249,6 +279,11 @@
     "fightPoint": 15775,
     "profession": "冰魔导师"
   },
+  "64351": {
+    "name": "夏小沫",
+    "fightPoint": 20120,
+    "profession": "雷影剑士"
+  },
   "66325": {
     "name": "琥珀",
     "fightPoint": 19813,
@@ -263,6 +298,11 @@
     "name": "神丿神",
     "fightPoint": 17065,
     "profession": "雷影剑士"
+  },
+  "91057": {
+    "name": "云橙",
+    "fightPoint": 17694,
+    "profession": "神射手"
   },
   "93174": {
     "name": "古力猪",
@@ -308,6 +348,11 @@
     "name": "氯化钠",
     "fightPoint": 16877,
     "profession": "灵魂乐手"
+  },
+  "142157": {
+    "name": "芷澜",
+    "fightPoint": 8018,
+    "profession": "神盾骑士"
   },
   "152202": {
     "name": "我要当上海贼王",
@@ -359,6 +404,11 @@
     "fightPoint": 15482,
     "profession": "神射手"
   },
+  "185266": {
+    "name": "苏幽璃",
+    "fightPoint": 19124,
+    "profession": "冰魔导师"
+  },
   "189279": {
     "name": "杏本诗歌",
     "fightPoint": 18601,
@@ -383,6 +433,11 @@
     "name": "华某人",
     "fightPoint": 22968,
     "profession": "雷影剑士"
+  },
+  "203704": {
+    "name": "沙拉酱",
+    "fightPoint": 19128,
+    "profession": "神盾骑士"
   },
   "207004": {
     "name": "保罗",
@@ -539,6 +594,11 @@
     "fightPoint": 17443,
     "profession": "神射手"
   },
+  "233794": {
+    "name": "八百岁比名子",
+    "fightPoint": 19041,
+    "profession": "雷影剑士"
+  },
   "234087": {
     "name": "鳴丶从心所欲",
     "fightPoint": 16860,
@@ -558,6 +618,11 @@
     "name": "PEKO",
     "fightPoint": 10866,
     "profession": "青岚骑士"
+  },
+  "237765": {
+    "name": "沼跃鱼",
+    "fightPoint": 18129,
+    "profession": "神盾骑士"
   },
   "238299": {
     "name": "紵",
@@ -794,15 +859,35 @@
     "fightPoint": 19141,
     "profession": "雷影剑士"
   },
+  "301131": {
+    "name": "太胖飞不起来",
+    "fightPoint": 19853,
+    "profession": "青岚骑士"
+  },
+  "301249": {
+    "name": "墨灵",
+    "fightPoint": 18768,
+    "profession": "青岚骑士"
+  },
   "305420": {
     "name": "再次追逐夏日",
     "fightPoint": 19334,
     "profession": "雷影剑士"
   },
+  "307753": {
+    "name": "penpen",
+    "fightPoint": 19055,
+    "profession": "青岚骑士"
+  },
   "307884": {
     "name": "CoCo",
     "fightPoint": 17706,
     "profession": "青岚骑士"
+  },
+  "313392": {
+    "name": "长崎素世",
+    "fightPoint": 19595,
+    "profession": "神射手"
   },
   "313436": {
     "name": "小红帽",
@@ -879,6 +964,11 @@
     "fightPoint": 18194,
     "profession": "冰魔导师"
   },
+  "371349": {
+    "name": "黑皮诺",
+    "fightPoint": 17219,
+    "profession": "巨刃守护者"
+  },
   "375330": {
     "name": "白灼虾",
     "fightPoint": 17273,
@@ -889,10 +979,20 @@
     "fightPoint": 16280,
     "profession": "神盾骑士"
   },
+  "383672": {
+    "name": "Mutsumi",
+    "fightPoint": 17316,
+    "profession": "神射手"
+  },
   "387595": {
     "name": "B站丶A叔Xmas",
     "fightPoint": 17176,
     "profession": "雷影剑士"
+  },
+  "389163": {
+    "name": "Hanbao",
+    "fightPoint": 16056,
+    "profession": "神射手"
   },
   "397915": {
     "name": "小白xl",
@@ -929,6 +1029,11 @@
     "fightPoint": 19118,
     "profession": "青岚骑士"
   },
+  "416299": {
+    "name": "煌姬",
+    "fightPoint": 16903,
+    "profession": "冰魔导师"
+  },
   "416463": {
     "name": "G4",
     "fightPoint": 18685,
@@ -959,10 +1064,20 @@
     "fightPoint": 19262,
     "profession": "雷影剑士"
   },
+  "424335": {
+    "name": "Misaka",
+    "fightPoint": 17261,
+    "profession": "冰魔导师"
+  },
   "424358": {
     "name": "安和昴",
     "fightPoint": 17259,
     "profession": "雷影剑士"
+  },
+  "424784": {
+    "name": "账号已注销",
+    "fightPoint": 19892,
+    "profession": "灵魂乐手"
   },
   "426732": {
     "name": "原映雪",
@@ -987,6 +1102,11 @@
   "430798": {
     "name": "小莫",
     "fightPoint": 17312,
+    "profession": "巨刃守护者"
+  },
+  "430844": {
+    "name": "水白",
+    "fightPoint": 15486,
     "profession": "巨刃守护者"
   },
   "430899": {
@@ -1124,6 +1244,16 @@
     "fightPoint": 18310,
     "profession": "冰魔导师"
   },
+  "471802": {
+    "name": "怜",
+    "fightPoint": 16654,
+    "profession": "冰魔导师"
+  },
+  "473642": {
+    "name": "白雪乃爱",
+    "fightPoint": 20008,
+    "profession": "雷影剑士"
+  },
   "481491": {
     "name": "彼岸",
     "fightPoint": 17817,
@@ -1189,6 +1319,11 @@
     "fightPoint": 19540,
     "profession": "雷影剑士"
   },
+  "508748": {
+    "name": "砍出一片天",
+    "fightPoint": 19102,
+    "profession": "雷影剑士"
+  },
   "508904": {
     "name": "青雀",
     "fightPoint": 18831,
@@ -1219,6 +1354,11 @@
     "fightPoint": 13984,
     "profession": "神射手"
   },
+  "526713": {
+    "name": "四宫辉夜",
+    "fightPoint": 19202,
+    "profession": "灵魂乐手"
+  },
   "530793": {
     "name": "白糖",
     "fightPoint": 18755,
@@ -1239,10 +1379,20 @@
     "fightPoint": 18520,
     "profession": "雷影剑士"
   },
+  "547386": {
+    "name": "青云",
+    "fightPoint": 19339,
+    "profession": "森语者"
+  },
   "551639": {
     "name": "Asa",
     "fightPoint": 15101,
     "profession": "冰魔导师"
+  },
+  "555445": {
+    "name": "苹果赫萝",
+    "fightPoint": 18699,
+    "profession": "神盾骑士"
   },
   "555522": {
     "name": "鱼子酱",
@@ -1269,6 +1419,11 @@
     "fightPoint": 16017,
     "profession": "神盾骑士"
   },
+  "572185": {
+    "name": "抓你去喂猪",
+    "fightPoint": 18454,
+    "profession": "森语者"
+  },
   "580158": {
     "name": "酱油喵",
     "fightPoint": 17892,
@@ -1278,6 +1433,11 @@
     "name": "SEED",
     "fightPoint": 17224,
     "profession": "巨刃守护者"
+  },
+  "615014": {
+    "name": "魔王来水美树",
+    "fightPoint": 19012,
+    "profession": "青岚骑士"
   },
   "616818": {
     "name": "色部彩夏",
@@ -1339,6 +1499,16 @@
     "fightPoint": 18515,
     "profession": "神盾骑士"
   },
+  "655668": {
+    "name": "沙耶",
+    "fightPoint": 19195,
+    "profession": "青岚骑士"
+  },
+  "656276": {
+    "name": "36c8",
+    "fightPoint": 21202,
+    "profession": "冰魔导师"
+  },
   "659543": {
     "name": "暴怒的小菜包",
     "fightPoint": 17554,
@@ -1348,6 +1518,11 @@
     "name": "特别周",
     "fightPoint": 17008,
     "profession": "青岚骑士"
+  },
+  "690365": {
+    "name": "灬糖纸灬",
+    "fightPoint": 16056,
+    "profession": "灵魂乐手"
   },
   "700716": {
     "name": "白刃",
@@ -1381,7 +1556,7 @@
   },
   "708887": {
     "name": "摸鱼子",
-    "fightPoint": 17135,
+    "fightPoint": 19004,
     "profession": "雷影剑士"
   },
   "723340": {
@@ -1414,6 +1589,16 @@
     "fightPoint": 16335,
     "profession": "青岚骑士"
   },
+  "735511": {
+    "name": "苍",
+    "fightPoint": 18420,
+    "profession": "神射手"
+  },
+  "737418": {
+    "name": "哭哭QwQ",
+    "fightPoint": 16548,
+    "profession": "雷影剑士"
+  },
   "745508": {
     "name": "贺阳燐羽",
     "fightPoint": 16348,
@@ -1434,6 +1619,11 @@
     "fightPoint": 17106,
     "profession": "森语者"
   },
+  "770426": {
+    "name": "皮卡丘的猫",
+    "fightPoint": 17810,
+    "profession": "神盾骑士"
+  },
   "770643": {
     "name": "一雪影一",
     "fightPoint": 18218,
@@ -1453,6 +1643,11 @@
     "name": "爱丽丝",
     "fightPoint": 14501,
     "profession": "森语者"
+  },
+  "830425": {
+    "name": "Aliorx",
+    "fightPoint": 15439,
+    "profession": "神盾骑士"
   },
   "840358": {
     "name": "箩棅",
@@ -1539,6 +1734,11 @@
     "fightPoint": 18228,
     "profession": "冰魔导师"
   },
+  "919727": {
+    "name": "腿毛儿",
+    "fightPoint": 14145,
+    "profession": "灵魂乐手"
+  },
   "926610": {
     "name": "真的很离谱i",
     "fightPoint": 17515,
@@ -1558,6 +1758,11 @@
     "name": "元气一发",
     "fightPoint": 18634,
     "profession": "雷影剑士"
+  },
+  "986035": {
+    "name": "圆陆鲨",
+    "fightPoint": 18618,
+    "profession": "神盾骑士"
   },
   "1021957": {
     "name": "诗乃有个法师梦",
@@ -1591,7 +1796,7 @@
   },
   "1050836": {
     "name": "白月魁",
-    "fightPoint": 15822,
+    "fightPoint": 16647,
     "profession": "巨刃守护者"
   },
   "1053066": {
@@ -1624,6 +1829,11 @@
     "fightPoint": 17864,
     "profession": "神射手"
   },
+  "1059430": {
+    "name": "丛雨丛雨丛",
+    "fightPoint": 18395,
+    "profession": "神射手"
+  },
   "1067358": {
     "name": "旅行者",
     "fightPoint": 16998,
@@ -1644,6 +1854,11 @@
     "fightPoint": 18508,
     "profession": "青岚骑士"
   },
+  "1075353": {
+    "name": "狂暴的狗子",
+    "fightPoint": 21903,
+    "profession": "神盾骑士"
+  },
   "1077357": {
     "name": "鲁迪乌斯",
     "fightPoint": 15167,
@@ -1658,6 +1873,11 @@
     "name": "杀手王小桃",
     "fightPoint": 17485,
     "profession": "雷影剑士"
+  },
+  "1093649": {
+    "name": "大34",
+    "fightPoint": 19358,
+    "profession": "冰魔导师"
   },
   "1094644": {
     "name": "秀文",
@@ -1678,6 +1898,11 @@
     "name": "中川花音",
     "fightPoint": 17262,
     "profession": "灵魂乐手"
+  },
+  "1106272": {
+    "name": "卡利波尔",
+    "fightPoint": 15808,
+    "profession": "森语者"
   },
   "1112142": {
     "name": "别至山雾",
@@ -1704,6 +1929,11 @@
     "fightPoint": 17473,
     "profession": "冰魔导师"
   },
+  "1134930": {
+    "name": "丫丫",
+    "fightPoint": 17041,
+    "profession": "森语者"
+  },
   "1136672": {
     "name": "天平线",
     "fightPoint": 16981,
@@ -1718,6 +1948,11 @@
     "name": "海边的蒙茉朗西",
     "fightPoint": 17147,
     "profession": "神盾骑士"
+  },
+  "1157357": {
+    "name": "死肥宅",
+    "fightPoint": 19865,
+    "profession": "雷影剑士"
   },
   "1163369": {
     "name": "流光月莹",
@@ -1759,6 +1994,11 @@
     "fightPoint": 17306,
     "profession": "神射手"
   },
+  "1190133": {
+    "name": "道长",
+    "fightPoint": 15308,
+    "profession": "神射手"
+  },
   "1196922": {
     "name": "炽幻",
     "fightPoint": 17336,
@@ -1788,6 +2028,11 @@
     "name": "丸子",
     "fightPoint": 18074,
     "profession": "神盾骑士"
+  },
+  "1239061": {
+    "name": "南风",
+    "fightPoint": 17937,
+    "profession": "青岚骑士"
   },
   "1242067": {
     "name": "菌子",
@@ -1874,6 +2119,11 @@
     "fightPoint": 18715,
     "profession": "神盾骑士"
   },
+  "1307495": {
+    "name": "没水喝就喝牛奶",
+    "fightPoint": 19992,
+    "profession": "青岚骑士"
+  },
   "1307585": {
     "name": "心晴",
     "fightPoint": 18174,
@@ -1894,6 +2144,11 @@
     "fightPoint": 17612,
     "profession": "青岚骑士"
   },
+  "1360869": {
+    "name": "最终冰器",
+    "fightPoint": 15510,
+    "profession": "雷影剑士"
+  },
   "1362903": {
     "name": "小伊软糖OvO",
     "fightPoint": 19616,
@@ -1904,10 +2159,20 @@
     "fightPoint": 18442,
     "profession": "青岚骑士"
   },
+  "1388548": {
+    "name": "小猫从不低头",
+    "fightPoint": 18829,
+    "profession": "森语者"
+  },
   "1428447": {
     "name": "长期素食导致的",
     "fightPoint": 15531,
     "profession": "森语者"
+  },
+  "1436035": {
+    "name": "桃井momo",
+    "fightPoint": 19047,
+    "profession": "青岚骑士"
   },
   "1440203": {
     "name": "赤骨打",
@@ -1919,10 +2184,20 @@
     "fightPoint": 16179,
     "profession": "灵魂乐手"
   },
+  "1444815": {
+    "name": "Pinkwhale",
+    "fightPoint": 15654,
+    "profession": "青岚骑士"
+  },
   "1446603": {
     "name": "培根蔬牛堡",
     "fightPoint": 17937,
     "profession": "灵魂乐手"
+  },
+  "1448203": {
+    "name": "时崎狂三",
+    "fightPoint": 18651,
+    "profession": "森语者"
   },
   "1450781": {
     "name": "深雪",
@@ -2014,15 +2289,30 @@
     "fightPoint": 17083,
     "profession": "雷影剑士"
   },
+  "1524628": {
+    "name": "青裁",
+    "fightPoint": 19033,
+    "profession": "雷影剑士"
+  },
   "1526459": {
     "name": "WangWangWang",
     "fightPoint": 16102,
     "profession": "神盾骑士"
   },
+  "1528087": {
+    "name": "嗞溜QWQ",
+    "fightPoint": 18215,
+    "profession": "冰魔导师"
+  },
   "1532767": {
     "name": "J3C",
     "fightPoint": 19771,
     "profession": "青岚骑士"
+  },
+  "1546484": {
+    "name": "瑞克五代丁真",
+    "fightPoint": 17665,
+    "profession": "雷影剑士"
   },
   "1553358": {
     "name": "32K",
@@ -2038,6 +2328,11 @@
     "name": "时崎狂三",
     "fightPoint": 19921,
     "profession": "雷影剑士"
+  },
+  "1569544": {
+    "name": "幻舞冰冰biubiu",
+    "fightPoint": 17557,
+    "profession": "冰魔导师"
   },
   "1575407": {
     "name": "三三来迟",
@@ -2064,6 +2359,16 @@
     "fightPoint": 17063,
     "profession": "森语者"
   },
+  "1606306": {
+    "name": "百草",
+    "fightPoint": 16881,
+    "profession": "巨刃守护者"
+  },
+  "1609783": {
+    "name": "伊達朱里",
+    "fightPoint": 14744,
+    "profession": "灵魂乐手"
+  },
   "1612393": {
     "name": "小炒面",
     "fightPoint": 18635,
@@ -2078,6 +2383,11 @@
     "name": "白咲凌寒",
     "fightPoint": 18707,
     "profession": "冰魔导师"
+  },
+  "1653078": {
+    "name": "洛可可",
+    "fightPoint": 17716,
+    "profession": "森语者"
   },
   "1661231": {
     "name": "潞还似璐",
@@ -2098,6 +2408,16 @@
     "name": "林夕红尘",
     "fightPoint": 17587,
     "profession": "冰魔导师"
+  },
+  "1669165": {
+    "name": "陌夜月",
+    "fightPoint": 17428,
+    "profession": "森语者"
+  },
+  "1669318": {
+    "name": "睡意正浓",
+    "fightPoint": 15007,
+    "profession": "神射手"
   },
   "1671301": {
     "name": "正念",
@@ -2174,6 +2494,11 @@
     "fightPoint": 15621,
     "profession": "青岚骑士"
   },
+  "1761492": {
+    "name": "那位先生",
+    "fightPoint": 19323,
+    "profession": "神射手"
+  },
   "1762134": {
     "name": "窥酱poi",
     "fightPoint": 13111,
@@ -2183,6 +2508,11 @@
     "name": "真白花音",
     "fightPoint": 18167,
     "profession": "神射手"
+  },
+  "1768401": {
+    "name": "袖罗垂影瘦",
+    "fightPoint": 17059,
+    "profession": "森语者"
   },
   "1772161": {
     "name": "长生仙尊",
@@ -2259,6 +2589,11 @@
     "fightPoint": 19057,
     "profession": "青岚骑士"
   },
+  "1869829": {
+    "name": "安心白",
+    "fightPoint": 17553,
+    "profession": "神盾骑士"
+  },
   "1870184": {
     "name": "炎流川",
     "fightPoint": 17571,
@@ -2309,10 +2644,25 @@
     "fightPoint": 16957,
     "profession": "雷影剑士"
   },
+  "1935840": {
+    "name": "夜神月",
+    "fightPoint": 18142,
+    "profession": "巨刃守护者"
+  },
+  "1938141": {
+    "name": "骂谁罕见",
+    "fightPoint": 18169,
+    "profession": "神盾骑士"
+  },
   "1939522": {
     "name": "白鼠",
     "fightPoint": 17016,
     "profession": "神盾骑士"
+  },
+  "1945964": {
+    "name": "傲娇病态雌小鬼",
+    "fightPoint": 19714,
+    "profession": "神射手"
   },
   "1950046": {
     "name": "冷寒",
@@ -2328,6 +2678,11 @@
     "name": "摘星",
     "fightPoint": 16748,
     "profession": "巨刃守护者"
+  },
+  "1960243": {
+    "name": "蓝毛",
+    "fightPoint": 19466,
+    "profession": "冰魔导师"
   },
   "1962094": {
     "name": "小祁",
@@ -2374,6 +2729,16 @@
     "fightPoint": 14770,
     "profession": "神射手"
   },
+  "2029582": {
+    "name": "时线",
+    "fightPoint": 18529,
+    "profession": "巨刃守护者"
+  },
+  "2057003": {
+    "name": "一枫",
+    "fightPoint": 18899,
+    "profession": "冰魔导师"
+  },
   "2057071": {
     "name": "呆萌一个雪糕",
     "fightPoint": 15549,
@@ -2399,6 +2764,11 @@
     "fightPoint": 16883,
     "profession": "神盾骑士"
   },
+  "2073259": {
+    "name": "三月铃仙",
+    "fightPoint": 18414,
+    "profession": "神射手"
+  },
   "2118365": {
     "name": "贺阳燐羽",
     "fightPoint": 18300,
@@ -2412,6 +2782,11 @@
   "2173217": {
     "name": "狗",
     "fightPoint": 16531,
+    "profession": "冰魔导师"
+  },
+  "2187602": {
+    "name": "沐雪",
+    "fightPoint": 16285,
     "profession": "冰魔导师"
   },
   "2188093": {
@@ -2438,6 +2813,11 @@
     "name": "魂魄妖夢",
     "fightPoint": 16901,
     "profession": "巨刃守护者"
+  },
+  "2259396": {
+    "name": "Hiiragi幻霖",
+    "fightPoint": 20171,
+    "profession": "雷影剑士"
   },
   "2261109": {
     "name": "唐乐吟",
@@ -2474,6 +2854,11 @@
     "fightPoint": 16528,
     "profession": "青岚骑士"
   },
+  "2286574": {
+    "name": "丁真",
+    "fightPoint": 19706,
+    "profession": "冰魔导师"
+  },
   "2298276": {
     "name": "旺果新果w",
     "fightPoint": 17008,
@@ -2498,6 +2883,11 @@
     "name": "椎名taki",
     "fightPoint": 17191,
     "profession": "神射手"
+  },
+  "2460238": {
+    "name": "小黑",
+    "fightPoint": 18579,
+    "profession": "雷影剑士"
   },
   "2466043": {
     "name": "莫吸哥鸡肉卷i",
@@ -2543,6 +2933,11 @@
     "name": "飞雪",
     "fightPoint": 18329,
     "profession": "青岚骑士"
+  },
+  "2665269": {
+    "name": "归尘",
+    "fightPoint": 8535,
+    "profession": "神盾骑士"
   },
   "2670873": {
     "name": "晒足一百八十天",
@@ -2619,9 +3014,19 @@
     "fightPoint": 17272,
     "profession": "青岚骑士"
   },
+  "2890355": {
+    "name": "Alicccc",
+    "fightPoint": 19450,
+    "profession": "青岚骑士"
+  },
   "2890686": {
     "name": "鬼方佳世子",
     "fightPoint": 18034,
+    "profession": "神射手"
+  },
+  "2898875": {
+    "name": "提莫",
+    "fightPoint": 18032,
     "profession": "神射手"
   },
   "2902784": {
@@ -2669,6 +3074,11 @@
     "fightPoint": 16842,
     "profession": "冰魔导师"
   },
+  "3087349": {
+    "name": "竹下听泉",
+    "fightPoint": 11845,
+    "profession": "冰魔导师"
+  },
   "3088905": {
     "name": "千隼友臨",
     "fightPoint": 16649,
@@ -2712,6 +3122,11 @@
   "3301617": {
     "name": "枸杞偷生",
     "fightPoint": 19061,
+    "profession": "冰魔导师"
+  },
+  "3305479": {
+    "name": "江城",
+    "fightPoint": 16847,
     "profession": "冰魔导师"
   },
   "3305594": {
@@ -2809,10 +3224,20 @@
     "fightPoint": 16434,
     "profession": "神射手"
   },
+  "3515186": {
+    "name": "原神高手",
+    "fightPoint": 18133,
+    "profession": "冰魔导师"
+  },
   "3518756": {
     "name": "雪奈奈",
     "fightPoint": 15358,
     "profession": "雷影剑士"
+  },
+  "3520654": {
+    "name": "AFa128",
+    "fightPoint": 15573,
+    "profession": "森语者"
   },
   "3522827": {
     "name": "神凪",
@@ -2854,6 +3279,11 @@
     "fightPoint": 17573,
     "profession": "冰魔导师"
   },
+  "3713270": {
+    "name": "南梦芽",
+    "fightPoint": 18576,
+    "profession": "冰魔导师"
+  },
   "3725537": {
     "name": "明菀",
     "fightPoint": 17463,
@@ -2883,6 +3313,16 @@
     "name": "之释",
     "fightPoint": 18085,
     "profession": "青岚骑士"
+  },
+  "3904125": {
+    "name": "雨的秘密",
+    "fightPoint": 18384,
+    "profession": "神射手"
+  },
+  "3909683": {
+    "name": "仓鼠提不起劲",
+    "fightPoint": 15633,
+    "profession": "神射手"
   },
   "3910336": {
     "name": "初始",
@@ -2939,6 +3379,11 @@
     "fightPoint": 16901,
     "profession": "雷影剑士"
   },
+  "3926895": {
+    "name": "寒岚",
+    "fightPoint": 13027,
+    "profession": "冰魔导师"
+  },
   "3928697": {
     "name": "素月",
     "fightPoint": 20873,
@@ -2957,6 +3402,11 @@
   "4100510": {
     "name": "古月方源",
     "fightPoint": 16295,
+    "profession": "冰魔导师"
+  },
+  "4102389": {
+    "name": "赛博吃辣王",
+    "fightPoint": 17578,
     "profession": "冰魔导师"
   },
   "4104357": {
@@ -3008,6 +3458,11 @@
     "name": "平凡",
     "fightPoint": 17885,
     "profession": "神盾骑士"
+  },
+  "4125354": {
+    "name": "海德林水晶飞踢",
+    "fightPoint": 18922,
+    "profession": "雷影剑士"
   },
   "4127546": {
     "name": "白袜泡茶",
@@ -3134,6 +3589,11 @@
     "fightPoint": 19223,
     "profession": "灵魂乐手"
   },
+  "4528292": {
+    "name": "狗子睡大觉",
+    "fightPoint": 18938,
+    "profession": "雷影剑士"
+  },
   "4532264": {
     "name": "魄梦魂",
     "fightPoint": 17442,
@@ -3159,6 +3619,11 @@
     "fightPoint": 19112,
     "profession": "雷影剑士"
   },
+  "4540966": {
+    "name": "潮汐",
+    "fightPoint": 19719,
+    "profession": "雷影剑士"
+  },
   "4545399": {
     "name": "鬼哪有影子",
     "fightPoint": 15889,
@@ -3168,6 +3633,11 @@
     "name": "神崎H亚里亚",
     "fightPoint": 14880,
     "profession": "巨刃守护者"
+  },
+  "4718691": {
+    "name": "奏井夕雨",
+    "fightPoint": 17745,
+    "profession": "青岚骑士"
   },
   "4721127": {
     "name": "Baga",
@@ -3208,6 +3678,11 @@
     "name": "星光之悦",
     "fightPoint": 13716,
     "profession": "森语者"
+  },
+  "4747385": {
+    "name": "December",
+    "fightPoint": 16271,
+    "profession": "神盾骑士"
   },
   "4750057": {
     "name": "可爱软萌吸血姬",
@@ -3288,6 +3763,11 @@
     "name": "黎夏",
     "fightPoint": 15957,
     "profession": "灵魂乐手"
+  },
+  "5153157": {
+    "name": "红豆泥",
+    "fightPoint": 17176,
+    "profession": "青岚骑士"
   },
   "5165843": {
     "name": "人皇",
@@ -3374,6 +3854,11 @@
     "fightPoint": 15400,
     "profession": "森语者"
   },
+  "5771471": {
+    "name": "黍",
+    "fightPoint": 16720,
+    "profession": "神射手"
+  },
   "5945548": {
     "name": "淮水竹亭",
     "fightPoint": 19062,
@@ -3448,6 +3933,11 @@
     "name": "安生乀",
     "fightPoint": 16844,
     "profession": "雷影剑士"
+  },
+  "6775436": {
+    "name": "豆豆",
+    "fightPoint": 13345,
+    "profession": "神射手"
   },
   "6776880": {
     "name": "孤胆小鬼",
@@ -3581,7 +4071,7 @@
   },
   "8625058": {
     "name": "城川怜纱",
-    "fightPoint": 17738,
+    "fightPoint": 18077,
     "profession": "神射手"
   },
   "8627091": {
@@ -3649,10 +4139,20 @@
     "fightPoint": 17011,
     "profession": "冰魔导师"
   },
+  "9026431": {
+    "name": "萝莉",
+    "fightPoint": 17416,
+    "profession": "神盾骑士"
+  },
   "9036356": {
     "name": "木l司",
     "fightPoint": 17235,
     "profession": "冰魔导师"
+  },
+  "9051002": {
+    "name": "幻想新",
+    "fightPoint": 19436,
+    "profession": "神盾骑士"
   },
   "9231300": {
     "name": "烟中恶鬼",
@@ -3663,6 +4163,11 @@
     "name": "shiroineco",
     "fightPoint": 17341,
     "profession": "森语者"
+  },
+  "9238855": {
+    "name": "米嘉",
+    "fightPoint": 18489,
+    "profession": "神盾骑士"
   },
   "9239183": {
     "name": "睦子米",
@@ -3763,6 +4268,21 @@
     "name": "我是可爱小猫娘",
     "fightPoint": 16463,
     "profession": "冰魔导师"
+  },
+  "9838785": {
+    "name": "热心市民",
+    "fightPoint": 17014,
+    "profession": "冰魔导师"
+  },
+  "9840799": {
+    "name": "取不出下头ID",
+    "fightPoint": 17027,
+    "profession": "神盾骑士"
+  },
+  "9841413": {
+    "name": "Mik",
+    "fightPoint": 18301,
+    "profession": "雷影剑士"
   },
   "9853402": {
     "name": "xiaoH",
@@ -3944,6 +4464,11 @@
     "fightPoint": 16275,
     "profession": "森语者"
   },
+  "12906784": {
+    "name": "蒲河栀",
+    "fightPoint": 18717,
+    "profession": "森语者"
+  },
   "12931763": {
     "name": "六鸽",
     "fightPoint": 17754,
@@ -3991,7 +4516,7 @@
   },
   "13928520": {
     "name": "注意关门",
-    "fightPoint": 18102,
+    "fightPoint": 17928,
     "profession": "冰魔导师"
   },
   "13929069": {
@@ -4018,6 +4543,11 @@
     "name": "小贼的窝窝",
     "fightPoint": 17668,
     "profession": "雷影剑士"
+  },
+  "14561507": {
+    "name": "魔菟丝子",
+    "fightPoint": 6942,
+    "profession": "冰魔导师"
   },
   "14747990": {
     "name": "祭秋",
@@ -4084,10 +4614,20 @@
     "fightPoint": 16472,
     "profession": "神射手"
   },
+  "17617118": {
+    "name": "pitohui",
+    "fightPoint": 19745,
+    "profession": "青岚骑士"
+  },
   "18438576": {
     "name": "星星",
     "fightPoint": 19022,
     "profession": "神盾骑士"
+  },
+  "18643766": {
+    "name": "暴力杀手",
+    "fightPoint": 18982,
+    "profession": "神射手"
   },
   "18843993": {
     "name": "白月魁",
@@ -4192,6 +4732,11 @@
   "21336352": {
     "name": "1D8雷鸣诗人",
     "fightPoint": 15599,
+    "profession": "灵魂乐手"
+  },
+  "21354763": {
+    "name": "蕾米莉亚",
+    "fightPoint": 16026,
     "profession": "灵魂乐手"
   },
   "21356825": {
@@ -4359,6 +4904,16 @@
     "fightPoint": 15957,
     "profession": "神射手"
   },
+  "23406939": {
+    "name": "tem",
+    "fightPoint": 837,
+    "profession": "巨刃守护者"
+  },
+  "23413277": {
+    "name": "BoMi酱",
+    "fightPoint": 17382,
+    "profession": "神盾骑士"
+  },
   "23425705": {
     "name": "Hofate",
     "fightPoint": 17916,
@@ -4374,6 +4929,11 @@
     "fightPoint": 17979,
     "profession": "神盾骑士"
   },
+  "23611997": {
+    "name": "风风仔丶",
+    "fightPoint": 17390,
+    "profession": "灵魂乐手"
+  },
   "23777762": {
     "name": "风雪",
     "fightPoint": 19157,
@@ -4382,6 +4942,11 @@
   "23796403": {
     "name": "红葉",
     "fightPoint": 16011,
+    "profession": "灵魂乐手"
+  },
+  "23966076": {
+    "name": "烬灼",
+    "fightPoint": 18999,
     "profession": "灵魂乐手"
   },
   "23968451": {
@@ -4424,6 +4989,11 @@
     "fightPoint": 3439,
     "profession": "灵魂乐手"
   },
+  "24387735": {
+    "name": "凌雪丶",
+    "fightPoint": 17601,
+    "profession": "森语者"
+  },
   "24391765": {
     "name": "Omega",
     "fightPoint": 6287,
@@ -4436,7 +5006,7 @@
   },
   "24404422": {
     "name": "EmiyaGm",
-    "fightPoint": 16818,
+    "fightPoint": 16865,
     "profession": "灵魂乐手"
   },
   "24578334": {
@@ -4474,6 +5044,11 @@
     "fightPoint": 17774,
     "profession": "青岚骑士"
   },
+  "25012717": {
+    "name": "伊修",
+    "fightPoint": 18680,
+    "profession": "冰魔导师"
+  },
   "25199245": {
     "name": "桜涙",
     "fightPoint": 15017,
@@ -4488,6 +5063,11 @@
     "name": "波奇酱",
     "fightPoint": 15204,
     "profession": "雷影剑士"
+  },
+  "25401828": {
+    "name": "愚弄者的挽歌",
+    "fightPoint": 15530,
+    "profession": "冰魔导师"
   },
   "25411888": {
     "name": "写下你的名字",
@@ -4519,6 +5099,11 @@
     "fightPoint": 6265,
     "profession": "青岚骑士"
   },
+  "26020392": {
+    "name": "梦若风华",
+    "fightPoint": 16147,
+    "profession": "青岚骑士"
+  },
   "26216475": {
     "name": "哥布林",
     "fightPoint": 15501,
@@ -4528,6 +5113,11 @@
     "name": "落花流水心无恋",
     "fightPoint": 11908,
     "profession": "森语者"
+  },
+  "26251707": {
+    "name": "极炎龙骑士洛乐",
+    "fightPoint": 18074,
+    "profession": "巨刃守护者"
   },
   "26421942": {
     "name": "KawasakiZephyr",
@@ -4572,6 +5162,11 @@
   "27035672": {
     "name": "异世相遇",
     "fightPoint": 14539,
+    "profession": "神射手"
+  },
+  "27240863": {
+    "name": "2288",
+    "fightPoint": 9989,
     "profession": "神射手"
   },
   "27655133": {
@@ -4629,6 +5224,11 @@
     "fightPoint": 16501,
     "profession": "神射手"
   },
+  "29980680": {
+    "name": "吉良丶",
+    "fightPoint": 18870,
+    "profession": "雷影剑士"
+  },
   "30108294": {
     "name": "Percia",
     "fightPoint": 16783,
@@ -4658,6 +5258,11 @@
     "name": "喵呜",
     "fightPoint": 16581,
     "profession": "森语者"
+  },
+  "30518089": {
+    "name": "中专说唱",
+    "fightPoint": 15980,
+    "profession": "神射手"
   },
   "30548105": {
     "name": "比尔人",
@@ -4734,6 +5339,21 @@
     "fightPoint": 16250,
     "profession": "神盾骑士"
   },
+  "33000062": {
+    "name": "曼波",
+    "fightPoint": 21759,
+    "profession": "神射手"
+  },
+  "33189957": {
+    "name": "流萤不会变成酱",
+    "fightPoint": 19649,
+    "profession": "冰魔导师"
+  },
+  "33384518": {
+    "name": "淺見莉莉絲",
+    "fightPoint": 18041,
+    "profession": "冰魔导师"
+  },
   "33805016": {
     "name": "叶的第七章",
     "fightPoint": 13417,
@@ -4752,6 +5372,11 @@
   "35047556": {
     "name": "翎",
     "fightPoint": 15381,
+    "profession": "神射手"
+  },
+  "35228329": {
+    "name": "兜兜",
+    "fightPoint": 19293,
     "profession": "神射手"
   },
   "35442777": {
@@ -4793,6 +5418,11 @@
     "name": "三月七",
     "fightPoint": 15828,
     "profession": "神盾骑士"
+  },
+  "37489404": {
+    "name": "丨任我水丨",
+    "fightPoint": 13536,
+    "profession": "森语者"
   },
   "37935909": {
     "name": "花花",
@@ -4837,6 +5467,11 @@
   "38918876": {
     "name": "漩涡鸣人",
     "fightPoint": 19716,
+    "profession": "青岚骑士"
+  },
+  "39323995": {
+    "name": "阿渣",
+    "fightPoint": 18214,
     "profession": "青岚骑士"
   },
   "39324335": {
@@ -4889,6 +5524,11 @@
     "fightPoint": 16140,
     "profession": "青岚骑士"
   },
+  "41986630": {
+    "name": "银阁",
+    "fightPoint": 19228,
+    "profession": "神射手"
+  },
   "41988455": {
     "name": "L",
     "fightPoint": 17622,
@@ -4926,8 +5566,8 @@
   },
   "43635022": {
     "name": "医疗人型寇尓芙",
-    "fightPoint": 12861,
-    "profession": "灵魂乐手"
+    "fightPoint": 14424,
+    "profession": "冰魔导师"
   },
   "43829891": {
     "name": "夜空",
@@ -4943,6 +5583,11 @@
     "name": "天方泠水",
     "fightPoint": 15012,
     "profession": "冰魔导师"
+  },
+  "44037038": {
+    "name": "捏捏",
+    "fightPoint": 13197,
+    "profession": "神射手"
   },
   "44249552": {
     "name": "桃",
@@ -4973,6 +5618,11 @@
     "name": "星月",
     "fightPoint": 17325,
     "profession": "神射手"
+  },
+  "45468453": {
+    "name": "双皮奶",
+    "fightPoint": 19117,
+    "profession": "森语者"
   },
   "45672703": {
     "name": "梦想成为冉大王",
@@ -5119,6 +5769,11 @@
     "fightPoint": 17563,
     "profession": "雷影剑士"
   },
+  "51202805": {
+    "name": "极速小鱼",
+    "fightPoint": 15410,
+    "profession": "灵魂乐手"
+  },
   "51626147": {
     "name": "飞飞很拽",
     "fightPoint": 5208,
@@ -5179,10 +5834,20 @@
     "fightPoint": 12512,
     "profession": "森语者"
   },
+  "54888860": {
+    "name": "MuMu",
+    "fightPoint": 14348,
+    "profession": "雷影剑士"
+  },
   "55103538": {
     "name": "龙舌兰姑娘",
     "fightPoint": 15363,
     "profession": "巨刃守护者"
+  },
+  "55304209": {
+    "name": "Misskoco",
+    "fightPoint": 5375,
+    "profession": "神射手"
   },
   "55923235": {
     "name": "中岛美嘉",
@@ -5204,6 +5869,11 @@
     "fightPoint": 560,
     "profession": "灵魂乐手"
   },
+  "58575710": {
+    "name": "Arona",
+    "fightPoint": 16071,
+    "profession": "青岚骑士"
+  },
   "60623099": {
     "name": "没本柿",
     "fightPoint": 10201,
@@ -5219,10 +5889,20 @@
     "fightPoint": 10127,
     "profession": "雷影剑士"
   },
+  "62056956": {
+    "name": "雪豹我们上",
+    "fightPoint": 13697,
+    "profession": "神射手"
+  },
   "62878274": {
     "name": "我",
     "fightPoint": 784,
     "profession": "冰魔导师"
+  },
+  "64723617": {
+    "name": "终爱之人终重逢",
+    "fightPoint": 1094,
+    "profession": "雷影剑士"
   },
   "64924209": {
     "name": "MYN",
