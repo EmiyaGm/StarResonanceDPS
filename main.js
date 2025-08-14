@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, } = require('electron');
 const path = require('path');
 const cap = require('cap');
 const readline = require('readline');
@@ -8,6 +8,8 @@ const pb = require('./algo/pb');
 const PacketProcessor = require('./algo/packet');
 const { Readable } = require("stream");
 const fs = require('fs');
+const { initGlobalMouseTracker } = require('./src/globalMouseTracker');
+
 
 const Cap = cap.Cap;
 const decoders = cap.decoders;
@@ -741,13 +743,17 @@ function createWindow() {
         transparent: true,
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false
+            contextIsolation: false,
+            enableRemoteModule: true
         },
         titleBarStyle: 'hidden', // 隐藏标题栏
         trafficLightPosition: { x: 15, y: 15 } // macOS 窗口控制按钮位置
     });
 
+    require('@electron/remote/main').initialize()
+    require('@electron/remote/main').enable(mainWindow.webContents)
     mainWindow.loadFile('src/index.html');
+    initGlobalMouseTracker(mainWindow);
 
     // 设置初始位置到屏幕左下角
     const { screen } = require('electron');
@@ -1150,6 +1156,13 @@ function startCapture(deviceIndex) {
             }
         })();
 
+        // mainWindow.setIgnoreMouseEvents(true, {
+        //     forward: true,
+        //     propagate: function (event) {
+        //         return event.target.id === 'dataSection'
+        //     }
+        // })
+
         return true;
     } catch (error) {
         logger.error('开始抓包失败:', error);
@@ -1310,6 +1323,11 @@ ipcMain.handle('get-capture-status', () => {
         userUid: user_uid ? user_uid.toString() : null
     };
 });
+
+ipcMain.on('set-ignore-mouse-events', (event, ignore, options) => {
+    const win = BrowserWindow.fromWebContents(event.sender)
+    win.setIgnoreMouseEvents(ignore, options)
+})
 
 
 

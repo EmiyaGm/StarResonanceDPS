@@ -13,53 +13,52 @@
 <body>
     <div class="app">
         <!-- 顶部导航栏 -->
-        <div class="flex items-center justify-between navbar-content">
-            <button id="clearStatsBtn" class="btn btn-warning !p-0 !min-h-0 !h-auto !ml-2">
-                <span class="btn-icon">🗑️</span>
-            </button>
-            <div class="navbar-brand !ml-4">
-                <label class="swap">
-                    <input type="checkbox" id="typeCheckBox" />
-                    <div class="swap-off">总体：伤害</div>
-                    <div class="swap-on">总体：治疗</div>
-                </label>
-            </div>
+        <div id="topNavBar">
+            <div class="flex items-center justify-between navbar-content">
+                <button id="clearStatsBtn" class="btn btn-warning !p-0 !min-h-0 !h-auto !ml-2">
+                    <span class="btn-icon">🗑️</span>
+                </button>
+                <div class="navbar-brand !ml-4">
+                    <label class="swap">
+                        <input type="checkbox" id="typeCheckBox" />
+                        <div class="swap-off">总体：伤害</div>
+                        <div class="swap-on">总体：治疗</div>
+                    </label>
+                </div>
 
-            <div class="navbar-center">
-                <div class="status-card flex items-center justify-center" id="statusCard">
-                    <div class="status-indicator" id="statusIndicator">
-                        <div class="status-dot"></div>
-                        <span class="status-text">待连接</span>
-                    </div>
-                    <div class="status-info">
-                        <div class="status-detail">
-                            <span class="label">设备</span>
-                            <span class="value" id="currentDevice">未选择</span>
+                <div class="navbar-center">
+                    <div class="status-card flex items-center justify-center" id="statusCard">
+                        <div class="status-indicator" id="statusIndicator">
+                            <div class="status-dot"></div>
+                            <span class="status-text">待连接</span>
+                        </div>
+                        <div class="status-info">
+                            <div class="status-detail">
+                                <span class="label">设备</span>
+                                <span class="value" id="currentDevice">未选择</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="window-controls">
-                <button class="window-control-btn show-btn" id="showDeviceBtn" title="显示设备选择" style="display: none;">
-                    <span>👀</span>
-                </button>
-                <button class="window-control-btn minimize-btn" id="minimizeBtn" title="最小化">
-                    <span>–</span>
-                </button>
-                <button class="window-control-btn maximize-btn" id="maximizeBtn" title="最大化">
-                    <span>□</span>
-                </button>
-                <button class="window-control-btn close-btn" id="closeBtn" title="关闭">
-                    <span>✕</span>
-                </button>
+                <div class="window-controls">
+                    <button class="window-control-btn show-btn" id="showDeviceBtn" title="显示设备选择"
+                        style="display: none;">
+                        <span>👀</span>
+                    </button>
+                    <button class="window-control-btn minimize-btn" id="minimizeBtn" title="最小化">
+                        <span>–</span>
+                    </button>
+                    <button class="window-control-btn maximize-btn" id="maximizeBtn" title="最大化">
+                        <span>□</span>
+                    </button>
+                    <button class="window-control-btn close-btn" id="closeBtn" title="关闭">
+                        <span>✕</span>
+                    </button>
+                </div>
             </div>
-        </div>
-
-        <!-- 主要内容区域 -->
-        <main class="main-container">
             <!-- 控制面板 -->
-            <section class="control-section" id="controlArea">
+            <div class="control-section" id="controlArea">
                 <div class="control-card">
                     <div class="card-content !p-0">
                         <div class="control-row">
@@ -69,10 +68,12 @@
                                 </select>
                             </div>
                             <div class="flex items-center justify-center gap-2">
-                                <button id="hideDeviceBtn" class="btn btn-outline btn-sm !p-0 !min-h-0 !h-auto" title="隐藏设备选择" disabled>
+                                <button id="hideDeviceBtn" class="btn btn-outline btn-sm !p-0 !min-h-0 !h-auto"
+                                    title="隐藏设备选择" disabled>
                                     <span class="btn-icon">😌</span>
                                 </button>
-                                <button id="refreshDeviceBtn" class="btn btn-outline btn-sm !p-0 !min-h-0 !h-auto" title="刷新设备列表">
+                                <button id="refreshDeviceBtn" class="btn btn-outline btn-sm !p-0 !min-h-0 !h-auto"
+                                    title="刷新设备列表">
                                     <span class="btn-icon">🔄</span>
                                 </button>
                                 <button id="startCaptureBtn" class="btn btn-success !p-0 !min-h-0 !h-auto" disabled>
@@ -85,10 +86,16 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+
+
+        <!-- 主要内容区域 -->
+        <main class="main-container">
+
 
             <!-- 数据展示区域 -->
-            <section class="data-section">
+            <section class="data-section" id="dataSection">
                 <!-- 空状态 -->
                 <div class="empty-state" id="noDataMessage">
                     <div class="empty-icon">
@@ -97,11 +104,6 @@
                     </div>
                     <h3>等待数据中...</h3>
                     <p>请选择网络设备并开始数据捕获</p>
-                    <div class="empty-actions">
-                        <button class="btn btn-primary" onclick="document.getElementById('refreshDeviceBtn').click()">
-                            刷新设备列表
-                        </button>
-                    </div>
                 </div>
 
                 <!-- 统计数据容器 -->

@@ -1,4 +1,5 @@
 const { ipcRenderer } = require('electron');
+const { useGlobalHover } = require('./useGlobalHover');
 
 // DOM元素引用
 let statusCard, statusIndicator, currentDevice, playerUid, noDataMessage, statsContainer;
@@ -6,7 +7,7 @@ let deviceSelect, refreshDeviceBtn, startCaptureBtn, stopCaptureBtn, clearStatsB
 let totalRealtimeDps, totalMaxDps, totalAvgDps, totalDamage, statsTable, progressDamageArea, progressHealingArea;
 let totalRealtimeHps, totalMaxHps, totalAvgHps, totalHealing;
 let minimizeBtn, maximizeBtn, closeBtn, typeCheckBox, pinBtn, hideDeviceBtn, showDeviceBtn;
-let controlArea;
+let controlArea, topNavBar;
 
 // 全局状态
 let isCapturing = false;
@@ -41,6 +42,8 @@ function initializeElements() {
     statsContainer = document.getElementById('statsContainer');
 
     controlArea = document.getElementById('controlArea')
+
+    topNavBar = document.getElementById('topNavBar')
 
     // 控件
     deviceSelect = document.getElementById('deviceSelect');
@@ -87,6 +90,79 @@ function bindEventListeners() {
             startCaptureBtn.disabled = true;
         }
     });
+
+
+    // if (controlArea) {
+    //     controlArea.addEventListener('mouseover', () => {
+    //         const win = require('@electron/remote').getCurrentWindow()
+    //         win.setIgnoreMouseEvents(false, {
+    //             forward: true,
+    //         })
+    //     })
+    //     controlArea.addEventListener('mouseout', () => {
+    //         const win = require('@electron/remote').getCurrentWindow()
+    //         win.setIgnoreMouseEvents(true, {
+    //             forward: true,
+    //         })
+    //     })
+    // }
+
+    // let inside = false;
+
+    // if (topNavBar) {
+    //     window.addEventListener('mousemove', e => {
+    //         const rect = topNavBar.getBoundingClientRect();
+    //         const inElement = (
+    //             e.clientX >= rect.left &&
+    //             e.clientX <= rect.right &&
+    //             e.clientY >= rect.top &&
+    //             e.clientY <= rect.bottom
+    //         );
+
+    //         if (inElement && !inside) {
+    //             inside = true;
+    //             console.log('进入元素');
+    //         } else if (!inElement && inside) {
+    //             inside = false;
+    //             console.log('离开元素');
+    //         }
+    //     });
+
+    //     window.addEventListener('focus', () => {
+    //         const rect = topNavBar.getBoundingClientRect();
+    //         const { clientX, clientY } = window.event || {};
+    //         if (
+    //             clientX >= rect.left && clientX <= rect.right &&
+    //             clientY >= rect.top && clientY <= rect.bottom
+    //         ) {
+    //             console.log('可能是从外面直接进来的');
+    //         }
+    //     });
+    //     // console.log(topNavBar)
+    //     // topNavBar.addEventListener('mouseover', (e) => {
+    //     //     if (!inside) {
+    //     //         inside = true;
+    //     //         console.log('模拟 mouseenter', e);
+    //     //         const win = require('@electron/remote').getCurrentWindow()
+    //     //         win.setIgnoreMouseEvents(false, {
+    //     //             forward: true,
+    //     //         })
+    //     //     }
+
+    //     // })
+    //     // topNavBar.addEventListener('mouseout', (e) => {
+    //     //     if (inside && !topNavBar.contains(e.relatedTarget)) {
+    //     //         inside = false;
+    //     //         console.log('模拟 mouseleave', e);
+    //     //         console.log('-----out-------')
+    //     //         const win = require('@electron/remote').getCurrentWindow()
+    //     //         win.setIgnoreMouseEvents(true, {
+    //     //             forward: true,
+    //     //         })
+    //     //     }
+
+    //     // })
+    // }
 
     // pinBtn.addEventListener('click', () => {
     //     isPinned = !isPinned;
@@ -413,7 +489,7 @@ function updateProgressArea() {
         </div>`
     }
 
-    for (let i = 0; i < healingAllUserData.length; i++ ) {
+    for (let i = 0; i < healingAllUserData.length; i++) {
         const userData = healingAllUserData[i]
         const healing = userData.total_healing;
         const totalHealingPercentProgress = (parseFloat(healing.total || 0) / max_total_healing) * 100;
@@ -733,6 +809,26 @@ async function initialize() {
     setInterval(() => {
         // 可以在这里添加定期更新的逻辑
     }, 1000);
+    const el = document.getElementById('topNavBar');
+
+    useGlobalHover(
+        el,
+        () => {
+            const win = require('@electron/remote').getCurrentWindow()
+            win.setIgnoreMouseEvents(false, {
+                forward: true,
+            })
+            console.log('进入元素（外部/内部都可触发）')
+
+        },
+        () => {
+            const win = require('@electron/remote').getCurrentWindow()
+            win.setIgnoreMouseEvents(true, {
+                forward: true,
+            })
+            console.log('离开元素')
+        }
+    );
 }
 
 // 页面加载完成后初始化
